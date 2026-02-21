@@ -13,6 +13,8 @@ draft: false
 
 I used to harden images only on critical services. That approach was inconsistent and caused drift.
 
+## Baseline checks
+
 Now I start with a single baseline:
 
 - Pin base image tags to immutable digests.
@@ -20,5 +22,7 @@ Now I start with a single baseline:
 - Keep runtime images minimal and avoid build tools in final layers.
 - Remove package manager caches and shell tools that are not required at runtime.
 - Add a health endpoint and fail fast on broken startup.
+
+## Outcome
 
 This has reduced noisy scanner findings and made incident reviews easier because the baseline is predictable.

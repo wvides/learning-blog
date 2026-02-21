@@ -1,21 +1,35 @@
 ---
-import { type CollectionEntry } from 'astro:content';
-import { getPublishedPosts, slugFromPostId } from '../../lib/posts';
+import {
+	estimateReadingTimeMinutes,
+	getPublishedPosts,
+	postPathFromId,
+	slugFromPostId,
+} from '../../lib/posts';
 import BlogPost from '../../layouts/BlogPost.astro';
 
 export async function getStaticPaths() {
 	const posts = await getPublishedPosts();
-	return posts.map((post) => ({
+	return posts.map((post, index) => ({
 		params: { slug: slugFromPostId(post.id) },
-		props: post,
+		props: {
+			post,
+			previous: posts[index + 1] ?? null,
+			next: posts[index - 1] ?? null,
+		},
 	}));
 }
-type Props = CollectionEntry<'blog'>;
 
-const post = Astro.props;
-const { Content } = await post.render();
+const { post, previous, next } = Astro.props;
+const { Content, headings = [] } = await post.render();
+const readingTimeMinutes = estimateReadingTimeMinutes(post.body || '');
 ---
 
-<BlogPost {...post.data}>
+<BlogPost
+	{...post.data}
+	headings={headings}
+	readingTimeMinutes={readingTimeMinutes}
+	previous={previous ? { title: previous.data.title, href: postPathFromId(previous.id) } : null}
+	next={next ? { title: next.data.title, href: postPathFromId(next.id) } : null}
+>
 	<Content />
 </BlogPost>

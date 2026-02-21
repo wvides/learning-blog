@@ -12,6 +12,8 @@ draft: false
 
 Caching can help a lot, but bad keys cause subtle failures.
 
+## The approach
+
 The pattern that worked best for me:
 
 1. Use lockfiles in the primary cache key.
@@ -31,5 +33,7 @@ Example cache step:
     restore-keys: |
       ${{ runner.os }}-npm-
 ```
+
+## Result
 
 After adding this pattern, dependency install time dropped and reruns became more predictable.

@@ -12,11 +12,15 @@ draft: false
 
 I prefer incident reviews that are specific, short, and actionable.
 
+## Retro structure
+
 My current retro structure:
 
 - **What happened**: short timeline with UTC timestamps.
 - **What helped**: controls, dashboards, or runbooks that reduced impact.
 - **What hurt**: gaps in observability, ownership, or rollback speed.
 - **What changes now**: a small set of tracked follow-ups with owners.
+
+## Quality bar
 
 The quality bar is simple: every follow-up should reduce either blast radius or time-to-recovery.
