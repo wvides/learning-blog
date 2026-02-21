@@ -6,36 +6,18 @@ import SiteShell from '../layouts/SiteShell.astro';
 <SiteShell title={`${SITE_TITLE} | Uses`} description={SITE_DESCRIPTION}>
 	<section class="page">
 		<h1>Uses</h1>
-		<p class="intro">
-			Tools and setup I currently use for platform engineering, writing, and day-to-day execution.
-		</p>
 
 		<div class="stack">
 			<section class="card">
 				<h2>Development</h2>
-				<ul>
-					<li>Editor: VS Code with a lean extension set</li>
-					<li>Terminal: zsh + tmux</li>
-					<li>Runtime: Node.js</li>
-				</ul>
 			</section>
 
 			<section class="card">
 				<h2>Infrastructure</h2>
-				<ul>
-					<li>Containers: Docker for local parity</li>
-					<li>CI/CD: GitHub Actions for build and deployment gates</li>
-					<li>Hosting: GitHub Pages for static delivery</li>
-				</ul>
 			</section>
 
 			<section class="card">
 				<h2>Workflow</h2>
-				<ul>
-					<li>Planning: Linear tickets with clear scope</li>
-					<li>Notes: Markdown in-repo, close to code</li>
-					<li>Version control: Git with small, reviewable commits</li>
-				</ul>
 			</section>
 		</div>
 	</section>
@@ -44,11 +26,6 @@ import SiteShell from '../layouts/SiteShell.astro';
 <style>
 	.page {
 		max-width: 880px;
-	}
-
-	.intro {
-		max-width: 62ch;
-		margin-bottom: var(--space-6);
 	}
 
 	.stack {
@@ -88,16 +65,7 @@ import SiteShell from '../layouts/SiteShell.astro';
 
 	.card h2 {
 		font-size: 1.1rem;
-		margin-bottom: var(--space-3);
-	}
-
-	.card ul {
 		margin: 0;
-		padding-left: 1.1rem;
-	}
-
-	.card li {
-		margin-bottom: 0.45rem;
 	}
 
 	:root[data-theme="dark"] .card {
