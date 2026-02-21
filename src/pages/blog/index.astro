@@ -7,7 +7,7 @@ import SiteShell from '../../layouts/SiteShell.astro';
 const posts = await getPublishedPosts();
 ---
 
-<SiteShell title={SITE_TITLE} description={SITE_DESCRIPTION}>
+<SiteShell title={SITE_TITLE} description={SITE_DESCRIPTION} image="/images/og-blog.jpg">
 	<section class="blog-list">
 		<h1>All Posts</h1>
 		<ul>

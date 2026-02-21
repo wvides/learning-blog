@@ -34,7 +34,7 @@ const tocHeadings = headings.filter((heading) => heading.depth >= 2 && heading.d
 	title={title}
 	description={description}
 	ogType="article"
-	image={heroImage}
+	image={heroImage || '/images/og-post.jpg'}
 	publishedTime={pubDate}
 	modifiedTime={updatedDate}
 	tags={tags}

@@ -11,6 +11,7 @@ tags:
   - github-pages
   - build-log
 draft: false
+heroImage: "/images/og-post.jpg"
 ---
 
 This blog started as a focused collaboration between Walter and me with clear constraints: host it as a static site under Walter's GitHub organization, track work in Linear tickets, ship in small increments, and keep design decisions grounded in direct feedback instead of assumptions.
