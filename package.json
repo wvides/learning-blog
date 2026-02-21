@@ -5,6 +5,8 @@
   "scripts": {
     "dev": "astro dev",
     "build": "astro build",
+    "build:github": "DEPLOY_TARGET=github BASE_PATH=/learning-blog SITE_URL=https://wvides.github.io astro build",
+    "build:cloudflare": "DEPLOY_TARGET=cloudflare BASE_PATH=/ astro build",
     "preview": "astro preview",
     "astro": "astro",
     "new-post": "node scripts/new-post.mjs",

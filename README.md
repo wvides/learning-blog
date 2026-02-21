@@ -79,12 +79,30 @@ Publish flow:
 
 Deployment workflow:
 - `.github/workflows/deploy.yml`
+- `.github/workflows/deploy-cloudflare.yml`
 
 Trigger:
 - Push to `main`
 
 Deploy target:
 - GitHub Pages (Actions build type)
+- Cloudflare Pages (via GitHub Actions)
+
+### Cloudflare Setup
+
+Configure these GitHub repository secrets:
+- `CLOUDFLARE_API_TOKEN`
+- `CLOUDFLARE_ACCOUNT_ID`
+- `CLOUDFLARE_PROJECT_NAME`
+- Optional: `CLOUDFLARE_PAGES_SITE_URL` (example: `https://your-project.pages.dev`)
+
+Cloudflare build behavior:
+- `npm run build:cloudflare`
+- Uses base path `/` and Cloudflare site URL context.
+
+GitHub Pages build behavior:
+- `npm run build:github`
+- Uses base path `/learning-blog`.
 
 ## Analytics (Optional)
 
