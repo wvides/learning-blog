@@ -1,12 +1,10 @@
 ---
-import { getCollection } from 'astro:content';
 import PostCard from '../../components/PostCard.astro';
 import { SITE_DESCRIPTION, SITE_TITLE } from '../../consts';
+import { getPublishedPosts, postPathFromId } from '../../lib/posts';
 import SiteShell from '../../layouts/SiteShell.astro';
 
-const posts = (await getCollection('blog')).sort(
-	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
-);
+const posts = await getPublishedPosts();
 ---
 
 <SiteShell title={SITE_TITLE} description={SITE_DESCRIPTION}>
@@ -17,9 +15,9 @@ const posts = (await getCollection('blog')).sort(
 				posts.map((post) => (
 					<li>
 						<PostCard
-							href={`/blog/${post.id}/`}
+							href={postPathFromId(post.id)}
 							title={post.data.title}
-							description={post.data.description}
+							description={post.data.summary || post.data.description}
 							pubDate={post.data.pubDate}
 						/>
 					</li>

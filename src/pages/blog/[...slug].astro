@@ -1,11 +1,12 @@
 ---
-import { type CollectionEntry, getCollection } from 'astro:content';
+import { type CollectionEntry } from 'astro:content';
+import { getPublishedPosts, slugFromPostId } from '../../lib/posts';
 import BlogPost from '../../layouts/BlogPost.astro';
 
 export async function getStaticPaths() {
-	const posts = await getCollection('blog');
+	const posts = await getPublishedPosts();
 	return posts.map((post) => ({
-		params: { slug: post.id },
+		params: { slug: slugFromPostId(post.id) },
 		props: post,
 	}));
 }
