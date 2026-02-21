@@ -21,7 +21,7 @@ const recentPosts = (await getPublishedPosts()).slice(0, 3);
 			<picture>
 				<source
 					srcset={`${withBase('/images/mountain-hero-800.jpg')} 800w, ${withBase('/images/mountain-hero-1400.jpg')} 1400w, ${withBase('/images/mountain-hero-2000.jpg')} 2000w`}
-					sizes="(max-width: 720px) 100vw, min(860px, 100vw)"
+					sizes="(max-width: 720px) calc(100vw - 1rem), (max-width: 1120px) calc(100vw - 4.5rem), 960px"
 				/>
 				<img
 					class="hero-image"
@@ -90,7 +90,7 @@ const recentPosts = (await getPublishedPosts()).slice(0, 3);
 
 	.hero-art {
 		position: relative;
-		width: min(860px, 100%);
+		width: 100%;
 		aspect-ratio: 8 / 3;
 		border-radius: var(--radius-md);
 		border: 1px solid rgba(255, 255, 255, 0.3);
