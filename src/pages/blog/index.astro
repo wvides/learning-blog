@@ -1,6 +1,6 @@
 ---
 import { getCollection } from 'astro:content';
-import FormattedDate from '../../components/FormattedDate.astro';
+import PostCard from '../../components/PostCard.astro';
 import { SITE_DESCRIPTION, SITE_TITLE } from '../../consts';
 import SiteShell from '../../layouts/SiteShell.astro';
 
@@ -16,13 +16,12 @@ const posts = (await getCollection('blog')).sort(
 			{
 				posts.map((post) => (
 					<li>
-						<a href={`/blog/${post.id}/`} class="post-link">
-							<h3>{post.data.title}</h3>
-							<p>{post.data.description}</p>
-							<small>
-								<FormattedDate date={post.data.pubDate} />
-							</small>
-						</a>
+						<PostCard
+							href={`/blog/${post.id}/`}
+							title={post.data.title}
+							description={post.data.description}
+							pubDate={post.data.pubDate}
+						/>
 					</li>
 				))
 			}
@@ -41,31 +40,5 @@ const posts = (await getCollection('blog')).sort(
 		margin: 0;
 		display: grid;
 		gap: var(--space-4);
-	}
-
-	.post-link {
-		display: block;
-		padding: var(--space-5);
-		border: 1px solid var(--line-subtle);
-		border-radius: var(--radius-md);
-		background: color-mix(in srgb, var(--panel-bg), white 20%);
-		text-decoration: none;
-	}
-
-	.post-link h3 {
-		margin-bottom: var(--space-2);
-	}
-
-	.post-link p {
-		margin-bottom: var(--space-3);
-	}
-
-	.post-link small {
-		color: var(--text-muted);
-	}
-
-	.post-link:hover {
-		border-color: color-mix(in srgb, var(--link), white 45%);
-		box-shadow: 0 12px 30px rgba(14, 64, 73, 0.08);
 	}
 </style>

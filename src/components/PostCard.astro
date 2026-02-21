@@ -1,0 +1,52 @@
+---
+import FormattedDate from './FormattedDate.astro';
+
+interface Props {
+	href: string;
+	title: string;
+	description: string;
+	pubDate: Date | string;
+}
+
+const { href, title, description, pubDate } = Astro.props;
+---
+
+<article class="post-card">
+	<a href={href}>
+		<h3>{title}</h3>
+		<p>{description}</p>
+		<div class="post-meta">
+			<FormattedDate date={pubDate} />
+		</div>
+	</a>
+</article>
+
+<style>
+	.post-card a {
+		display: block;
+		padding: var(--space-5);
+		border: 1px solid var(--line-subtle);
+		border-radius: var(--radius-md);
+		background: color-mix(in srgb, var(--panel-bg), white 24%);
+		text-decoration: none;
+	}
+
+	.post-card a:hover {
+		transform: translateY(-1px);
+		border-color: color-mix(in srgb, var(--link), white 45%);
+		box-shadow: 0 12px 30px rgba(14, 64, 73, 0.08);
+	}
+
+	.post-card h3 {
+		margin-bottom: var(--space-2);
+	}
+
+	.post-card p {
+		margin-bottom: var(--space-3);
+	}
+
+	.post-meta {
+		font-size: 0.84rem;
+		color: var(--text-muted);
+	}
+</style>
