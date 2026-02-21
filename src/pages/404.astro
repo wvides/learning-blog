@@ -1,0 +1,51 @@
+---
+import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
+import SiteShell from '../layouts/SiteShell.astro';
+---
+
+<SiteShell title={`${SITE_TITLE} | Not Found`} description={SITE_DESCRIPTION}>
+	<section class="not-found">
+		<p class="code">404</p>
+		<h1>Page not found.</h1>
+		<p>The page you requested does not exist or may have moved.</p>
+		<a href="/">Return to homepage</a>
+	</section>
+</SiteShell>
+
+<style>
+	.not-found {
+		max-width: 560px;
+		margin: 2.5rem auto;
+		text-align: center;
+	}
+
+	.code {
+		font-size: 0.8rem;
+		letter-spacing: 0.08em;
+		text-transform: uppercase;
+		color: var(--text-muted);
+	}
+
+	.not-found h1 {
+		margin-bottom: var(--space-3);
+	}
+
+	.not-found p {
+		margin-bottom: var(--space-5);
+	}
+
+	.not-found a {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		padding: 0.65rem 1rem;
+		border-radius: var(--radius-sm);
+		background: rgba(25, 32, 33, 0.1);
+		text-decoration: none;
+		color: var(--text-strong);
+	}
+
+	.not-found a:hover {
+		background: rgba(25, 32, 33, 0.16);
+	}
+</style>
