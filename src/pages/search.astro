@@ -221,7 +221,7 @@ const searchIndex = posts.map((post) => {
 		gap: var(--space-4);
 	}
 
-	.result-card {
+	.results :global(.result-card) {
 		padding: var(--space-5);
 		border: 1px solid color-mix(in srgb, var(--line-subtle), var(--text-strong) 8%);
 		border-radius: var(--radius-md);
@@ -235,22 +235,22 @@ const searchIndex = posts.map((post) => {
 			0 10px 24px rgba(8, 43, 50, 0.08);
 	}
 
-	.result-card h2 {
+	.results :global(.result-card h2) {
 		font-size: 1.06rem;
 		margin-top: 0;
 		margin-bottom: var(--space-2);
 	}
 
-	.result-card h2 a {
+	.results :global(.result-card h2 a) {
 		text-decoration: none;
 	}
 
-	.result-card p {
+	.results :global(.result-card p) {
 		margin-top: 0;
 		margin-bottom: var(--space-3);
 	}
 
-	.meta {
+	.results :global(.meta) {
 		display: flex;
 		flex-wrap: wrap;
 		align-items: center;
@@ -258,7 +258,7 @@ const searchIndex = posts.map((post) => {
 		font-size: 0.82rem;
 	}
 
-	.tags {
+	.results :global(.tags) {
 		list-style: none;
 		display: flex;
 		flex-wrap: wrap;
@@ -267,14 +267,14 @@ const searchIndex = posts.map((post) => {
 		padding: 0;
 	}
 
-	.tags li {
+	.results :global(.tags li) {
 		padding: 0.12rem 0.45rem;
 		border-radius: 999px;
 		border: 1px solid color-mix(in srgb, var(--line-subtle), transparent 16%);
 		background: color-mix(in srgb, var(--panel-bg), white 24%);
 	}
 
-	.result-card.empty {
+	.results :global(.result-card.empty) {
 		font-style: italic;
 	}
 
@@ -283,7 +283,7 @@ const searchIndex = posts.map((post) => {
 		background: color-mix(in srgb, var(--panel-bg), #153f49 60%);
 	}
 
-	:root[data-theme="dark"] .result-card {
+	:root[data-theme="dark"] .results :global(.result-card) {
 		border-color: color-mix(in srgb, var(--line-subtle), #86cada 24%);
 		background: linear-gradient(
 			160deg,
@@ -296,7 +296,7 @@ const searchIndex = posts.map((post) => {
 			0 14px 28px rgba(0, 0, 0, 0.28);
 	}
 	@media (max-width: 720px) {
-		.result-card {
+		.results :global(.result-card) {
 			padding: var(--space-4);
 		}
 	}
