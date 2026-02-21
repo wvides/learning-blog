@@ -1,15 +1,108 @@
 ---
-import SiteShell from '../layouts/SiteShell.astro';
+import PostCard from '../components/PostCard.astro';
 import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
+import { getPublishedPosts, postPathFromId } from '../lib/posts';
+import SiteShell from '../layouts/SiteShell.astro';
+
+const recentPosts = (await getPublishedPosts()).slice(0, 3);
 ---
 
 <SiteShell title={SITE_TITLE} description={SITE_DESCRIPTION}>
-	<section>
-		<h1>Starter - a Minimalist Personal Blog Template.</h1>
-		<p>
-			This project is being tailored into a personal learning blog. The structure is in place and
-			content sections will be refined in upcoming tickets.
-		</p>
+	<section class="hero">
+		<div class="hero-copy">
+			<p class="eyebrow">Starter</p>
+			<h1>Starter - a Minimalist Personal Blog Template.</h1>
+			<p>
+				I use this site to document what I am learning in infrastructure, delivery pipelines, and
+				software reliability.
+			</p>
+		</div>
+		<div class="hero-art" aria-hidden="true"></div>
+	</section>
+
+	<section class="recent-posts">
+		<div class="section-head">
+			<h2>Recent posts</h2>
+			<a href="/blog">View all</a>
+		</div>
+		<ul>
+			{
+				recentPosts.map((post) => (
+					<li>
+						<PostCard
+							href={postPathFromId(post.id)}
+							title={post.data.title}
+							description={post.data.summary || post.data.description}
+							pubDate={post.data.pubDate}
+						/>
+					</li>
+				))
+			}
+		</ul>
 	</section>
 </SiteShell>
 
+<style>
+	.hero {
+		display: grid;
+		grid-template-columns: minmax(0, 1fr);
+		gap: var(--space-5);
+		padding-bottom: var(--space-7);
+	}
+
+	.hero-copy {
+		max-width: 680px;
+	}
+
+	.eyebrow {
+		margin-bottom: var(--space-3);
+		font-size: 0.78rem;
+		letter-spacing: 0.06em;
+		text-transform: uppercase;
+		color: var(--text-muted);
+	}
+
+	.hero-copy h1 {
+		max-width: 15ch;
+		margin-bottom: var(--space-4);
+	}
+
+	.hero-copy p {
+		max-width: 60ch;
+	}
+
+	.hero-art {
+		height: clamp(10rem, 22vw, 15rem);
+		border-radius: var(--radius-md);
+		border: 1px solid rgba(255, 255, 255, 0.2);
+		background:
+			linear-gradient(180deg, rgba(10, 130, 148, 0.86), rgba(7, 96, 109, 0.92)),
+			radial-gradient(circle at 20% 30%, rgba(255, 255, 255, 0.14), transparent 30%);
+	}
+
+	.section-head {
+		display: flex;
+		align-items: baseline;
+		justify-content: space-between;
+		gap: var(--space-3);
+		margin-bottom: var(--space-4);
+	}
+
+	.section-head h2 {
+		margin: 0;
+	}
+
+	.recent-posts ul {
+		list-style: none;
+		padding: 0;
+		margin: 0;
+		display: grid;
+		gap: var(--space-4);
+	}
+
+	@media (max-width: 720px) {
+		.hero {
+			padding-bottom: var(--space-6);
+		}
+	}
+</style>
