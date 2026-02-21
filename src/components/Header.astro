@@ -62,6 +62,10 @@ import HeaderLink from './HeaderLink.astro';
 		background: color-mix(in srgb, var(--panel-bg), white 26%);
 	}
 
+	:root[data-theme="dark"] .site-header {
+		background: color-mix(in srgb, var(--panel-bg), #0c3c45 36%);
+	}
+
 	nav {
 		width: min(960px, calc(100% - 0.75rem));
 		margin: 0 auto;
