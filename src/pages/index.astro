@@ -11,10 +11,18 @@ const recentPosts = (await getPublishedPosts()).slice(0, 3);
 <SiteShell title={SITE_TITLE} description={SITE_DESCRIPTION}>
 	<section class="hero">
 		<div class="hero-copy">
-			<p class="eyebrow">Starter</p>
-			<h1>Starter - a Minimalist Personal Blog Template.</h1>
-			<p>
-				This is where I share short notes on systems, delivery workflows, and practical reliability.
+			<p class="eyebrow">Staff Infrastructure Engineer</p>
+			<h1>
+				I build <span class="accent">infrastructure and platform systems</span> and help teams ship
+				<span class="accent">reliable products at scale</span>.
+			</h1>
+			<p class="lead">
+				I’m a Staff Infrastructure Engineer focused on cloud platforms, backend reliability, and
+				developer productivity.
+			</p>
+			<p class="sublead">
+				Here I share practical notes on platform architecture and how I’m upleveling my AI and
+				agent-building skills.
 			</p>
 		</div>
 		<div class="hero-art" aria-hidden="true">
@@ -91,13 +99,26 @@ const recentPosts = (await getPublishedPosts()).slice(0, 3);
 	.hero-copy h1 {
 		max-width: 13.5ch;
 		margin: 0;
-		font-size: clamp(2.2rem, 1.86rem + 2.1vw, 3.9rem);
+		font-size: clamp(1.86rem, 1.5rem + 1.6vw, 3.05rem);
+		line-height: 1.08;
+	}
+
+	.hero-copy .accent {
+		color: var(--link);
 	}
 
 	.hero-copy p {
 		margin: 0;
 		max-width: 60ch;
-		font-size: 1.02rem;
+	}
+
+	.hero-copy .lead {
+		font-size: 1rem;
+		color: color-mix(in srgb, var(--text-muted), var(--text-strong) 18%);
+	}
+
+	.hero-copy .sublead {
+		font-size: 0.98rem;
 	}
 
 	.hero-art {
