@@ -1,6 +1,7 @@
 ---
 import PostCard from '../../components/PostCard.astro';
 import { SITE_DESCRIPTION, SITE_TITLE } from '../../consts';
+import { withBase } from '../../lib/paths';
 import { getPostsForTagSlug, getTagSummaries } from '../../lib/tags';
 import { postPathFromId } from '../../lib/posts';
 import SiteShell from '../../layouts/SiteShell.astro';
@@ -21,7 +22,7 @@ const { tagName, posts } = await getPostsForTagSlug(tagSlug);
 	<section>
 		<div class="head">
 			<h1>Tag: {tagName}</h1>
-			<a href="/tags">All tags</a>
+			<a href={withBase('/tags')}>All tags</a>
 		</div>
 		<ul class="post-list">
 			{

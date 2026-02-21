@@ -1,6 +1,7 @@
 ---
 import type { CollectionEntry } from 'astro:content';
 import FormattedDate from '../components/FormattedDate.astro';
+import { withBase } from '../lib/paths';
 import { tagToSlug } from '../lib/tags';
 import SiteShell from './SiteShell.astro';
 
@@ -27,7 +28,7 @@ const { title, description, pubDate, updatedDate, tags = [] } = Astro.props;
 			{
 				tags.length > 0 && (
 					<ul class="tags">
-						{tags.map((tag) => <li><a href={`/tags/${tagToSlug(tag)}/`}>{tag}</a></li>)}
+						{tags.map((tag) => <li><a href={withBase(`/tags/${tagToSlug(tag)}/`)}>{tag}</a></li>)}
 					</ul>
 				)
 			}

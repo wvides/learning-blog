@@ -1,5 +1,6 @@
 ---
 import { SITE_DESCRIPTION, SITE_TITLE } from '../../consts';
+import { withBase } from '../../lib/paths';
 import { getTagSummaries } from '../../lib/tags';
 import SiteShell from '../../layouts/SiteShell.astro';
 
@@ -13,7 +14,7 @@ const tags = await getTagSummaries();
 			{
 				tags.map((tag) => (
 					<li>
-						<a href={`/tags/${tag.slug}/`}>
+						<a href={withBase(`/tags/${tag.slug}/`)}>
 							<span>{tag.name}</span>
 							<small>{tag.count}</small>
 						</a>

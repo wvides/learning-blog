@@ -17,10 +17,11 @@ const { title, description } = Astro.props;
 		<BaseHead title={title} description={description} />
 	</head>
 	<body>
+		<a href="#main-content" class="skip-link">Skip to main content</a>
 		<div class="frame">
 			<div class="panel">
 				<Header />
-				<main class="panel-main">
+				<main class="panel-main" id="main-content">
 					<slot />
 				</main>
 				<Footer />
@@ -30,6 +31,22 @@ const { title, description } = Astro.props;
 </html>
 
 <style>
+	.skip-link {
+		position: absolute;
+		top: -100%;
+		left: 0.75rem;
+		padding: 0.6rem 0.8rem;
+		border-radius: var(--radius-sm);
+		background: #ffffff;
+		color: #111;
+		text-decoration: none;
+		z-index: 1000;
+	}
+
+	.skip-link:focus {
+		top: 0.75rem;
+	}
+
 	.frame {
 		min-height: 100vh;
 		padding: clamp(1rem, 2vw, 2rem);

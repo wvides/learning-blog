@@ -1,5 +1,6 @@
 ---
 import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
+import { withBase } from '../lib/paths';
 import SiteShell from '../layouts/SiteShell.astro';
 ---
 
@@ -8,7 +9,7 @@ import SiteShell from '../layouts/SiteShell.astro';
 		<p class="code">404</p>
 		<h1>Page not found.</h1>
 		<p>The page you requested does not exist or may have moved.</p>
-		<a href="/">Return to homepage</a>
+		<a href={withBase('/')}>Return to homepage</a>
 	</section>
 </SiteShell>
 

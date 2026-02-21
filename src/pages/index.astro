@@ -1,6 +1,7 @@
 ---
 import PostCard from '../components/PostCard.astro';
 import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
+import { withBase } from '../lib/paths';
 import { getPublishedPosts, postPathFromId } from '../lib/posts';
 import SiteShell from '../layouts/SiteShell.astro';
 
@@ -23,7 +24,7 @@ const recentPosts = (await getPublishedPosts()).slice(0, 3);
 	<section class="recent-posts">
 		<div class="section-head">
 			<h2>Recent posts</h2>
-			<a href="/blog">View all</a>
+			<a href={withBase('/blog')}>View all</a>
 		</div>
 		<ul>
 			{

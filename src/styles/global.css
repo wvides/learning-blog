@@ -73,6 +73,14 @@ body {
 	-webkit-font-smoothing: antialiased;
 }
 
+a,
+button,
+input,
+select,
+textarea {
+	transition: 120ms ease;
+}
+
 main {
 	width: min(980px, calc(100% - 2rem));
 	margin: 0 auto;
@@ -119,6 +127,12 @@ a {
 
 a:hover {
 	color: var(--link-hover);
+}
+
+:focus-visible {
+	outline: 3px solid color-mix(in srgb, var(--link), white 25%);
+	outline-offset: 2px;
+	border-radius: 0.35rem;
 }
 
 strong,
@@ -187,6 +201,16 @@ input {
 	main {
 		width: calc(100% - 1.25rem);
 		padding: var(--space-6) 0;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	*,
+	*::before,
+	*::after {
+		animation: none !important;
+		transition: none !important;
+		scroll-behavior: auto !important;
 	}
 }
 

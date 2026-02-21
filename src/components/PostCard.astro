@@ -1,5 +1,6 @@
 ---
 import FormattedDate from './FormattedDate.astro';
+import { withBase } from '../lib/paths';
 import { tagToSlug } from '../lib/tags';
 
 interface Props {
@@ -11,17 +12,18 @@ interface Props {
 }
 
 const { href, title, description, pubDate, tags = [] } = Astro.props;
+const postHref = href.startsWith('http') ? href : withBase(href);
 ---
 
 <article class="post-card">
 	<h3>
-		<a href={href} class="post-link">{title}</a>
+		<a href={postHref} class="post-link">{title}</a>
 	</h3>
 	<p>{description}</p>
 	{
 		tags.length > 0 && (
 			<ul class="tags">
-				{tags.map((tag) => <li><a href={`/tags/${tagToSlug(tag)}/`}>{tag}</a></li>)}
+				{tags.map((tag) => <li><a href={withBase(`/tags/${tagToSlug(tag)}/`)}>{tag}</a></li>)}
 			</ul>
 		)
 	}
