@@ -18,13 +18,21 @@ const recentPosts = (await getPublishedPosts()).slice(0, 3);
 			</p>
 		</div>
 		<div class="hero-art" aria-hidden="true">
-			<img
-				class="hero-image"
-				src={withBase('/images/mountain-hero-a.jpg')}
-				alt=""
-				loading="eager"
-				decoding="async"
-			/>
+			<picture>
+				<source
+					srcset={`${withBase('/images/mountain-hero-800.jpg')} 800w, ${withBase('/images/mountain-hero-1400.jpg')} 1400w, ${withBase('/images/mountain-hero-2000.jpg')} 2000w`}
+					sizes="(max-width: 720px) 100vw, min(860px, 100vw)"
+				/>
+				<img
+					class="hero-image"
+					src={withBase('/images/mountain-hero-1400.jpg')}
+					alt=""
+					width="2000"
+					height="750"
+					loading="eager"
+					decoding="async"
+				/>
+			</picture>
 		</div>
 	</section>
 
@@ -83,38 +91,44 @@ const recentPosts = (await getPublishedPosts()).slice(0, 3);
 	.hero-art {
 		position: relative;
 		width: min(860px, 100%);
-		height: clamp(14rem, 28vw, 19rem);
+		aspect-ratio: 8 / 3;
 		border-radius: var(--radius-md);
 		border: 1px solid rgba(255, 255, 255, 0.3);
 		overflow: hidden;
-		background: linear-gradient(180deg, rgba(15, 122, 140, 0.94), rgba(10, 93, 108, 0.96));
+		background: linear-gradient(180deg, rgba(15, 122, 140, 0.96), rgba(10, 93, 108, 0.98));
+	}
+
+	.hero-art picture,
+	.hero-image {
+		position: absolute;
+		inset: 0;
+		width: 100%;
+		height: 100%;
 	}
 
 	.hero-image {
-		position: absolute;
-		inset: auto 0 0;
-		width: 100%;
-		height: 84%;
 		object-fit: cover;
-		object-position: center 6%;
-		filter: saturate(0.92) contrast(1.04);
-		opacity: 0.96;
+		object-position: center 38%;
+		filter: saturate(0.95) contrast(1.02);
+		opacity: 0.98;
 	}
 
 	.hero-art::before {
 		content: "";
 		position: absolute;
 		inset: 0;
-		background: linear-gradient(180deg, rgba(169, 228, 236, 0.12), rgba(169, 228, 236, 0) 34%);
+		background: linear-gradient(180deg, rgba(169, 228, 236, 0.08), rgba(169, 228, 236, 0) 28%);
 		pointer-events: none;
+		z-index: 1;
 	}
 
 	.hero-art::after {
 		content: "";
 		position: absolute;
 		inset: 0;
-		background: linear-gradient(180deg, rgba(240, 251, 252, 0), rgba(6, 70, 81, 0.22) 55%, rgba(4, 48, 56, 0.62));
+		background: linear-gradient(180deg, rgba(240, 251, 252, 0), rgba(6, 70, 81, 0.18) 58%, rgba(4, 48, 56, 0.48));
 		pointer-events: none;
+		z-index: 1;
 	}
 
 	.section-head {
