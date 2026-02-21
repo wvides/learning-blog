@@ -9,17 +9,42 @@ import BlogPost from '../../layouts/BlogPost.astro';
 
 export async function getStaticPaths() {
 	const posts = await getPublishedPosts();
-	return posts.map((post, index) => ({
-		params: { slug: slugFromPostId(post.id) },
-		props: {
-			post,
-			previous: posts[index + 1] ?? null,
-			next: posts[index - 1] ?? null,
-		},
-	}));
+	return posts.map((post, index) => {
+		const currentTags = new Set(post.data.tags || []);
+		const related = posts
+			.filter((candidate) => candidate.id !== post.id)
+			.map((candidate) => {
+				const candidateTags = candidate.data.tags || [];
+				const sharedTags = candidateTags.filter((tag) => currentTags.has(tag));
+				return { candidate, sharedTagCount: sharedTags.length };
+			})
+			.sort((a, b) => {
+				if (b.sharedTagCount !== a.sharedTagCount) return b.sharedTagCount - a.sharedTagCount;
+				const timeDiff =
+					new Date(b.candidate.data.pubDate).valueOf() - new Date(a.candidate.data.pubDate).valueOf();
+				if (timeDiff !== 0) return timeDiff;
+				return a.candidate.data.title.localeCompare(b.candidate.data.title);
+			})
+			.slice(0, 3)
+			.map(({ candidate }) => ({
+				title: candidate.data.title,
+				href: postPathFromId(candidate.id),
+				description: candidate.data.summary || candidate.data.description,
+			}));
+
+		return {
+			params: { slug: slugFromPostId(post.id) },
+			props: {
+				post,
+				previous: posts[index + 1] ?? null,
+				next: posts[index - 1] ?? null,
+				related,
+			},
+		};
+	});
 }
 
-const { post, previous, next } = Astro.props;
+const { post, previous, next, related = [] } = Astro.props;
 const { Content, headings = [] } = await post.render();
 const readingTimeMinutes = estimateReadingTimeMinutes(post.body || '');
 ---
@@ -30,6 +55,7 @@ const readingTimeMinutes = estimateReadingTimeMinutes(post.body || '');
 	readingTimeMinutes={readingTimeMinutes}
 	previous={previous ? { title: previous.data.title, href: postPathFromId(previous.id) } : null}
 	next={next ? { title: next.data.title, href: postPathFromId(next.id) } : null}
+	related={related}
 >
 	<Content />
 </BlogPost>
