@@ -59,9 +59,32 @@ import SiteShell from '../layouts/SiteShell.astro';
 
 	.card {
 		padding: var(--space-5);
-		border: 1px solid var(--line-subtle);
+		border: 1px solid color-mix(in srgb, var(--line-subtle), var(--text-strong) 8%);
 		border-radius: var(--radius-md);
-		background: color-mix(in srgb, var(--panel-bg), white 12%);
+		background: linear-gradient(
+			160deg,
+			color-mix(in srgb, var(--panel-bg), white 58%) 0%,
+			color-mix(in srgb, var(--panel-bg), #d6edf1 38%) 100%
+		);
+		box-shadow:
+			0 1px 1px rgba(8, 43, 50, 0.06),
+			0 10px 24px rgba(8, 43, 50, 0.08);
+		transition:
+			border-color 180ms ease,
+			background 180ms ease,
+			box-shadow 180ms ease;
+	}
+
+	.card:hover {
+		border-color: color-mix(in srgb, var(--link), white 38%);
+		background: linear-gradient(
+			160deg,
+			color-mix(in srgb, var(--panel-bg), white 64%) 0%,
+			color-mix(in srgb, var(--panel-bg), #cde8ee 42%) 100%
+		);
+		box-shadow:
+			0 1px 1px rgba(8, 43, 50, 0.08),
+			0 18px 34px rgba(8, 43, 50, 0.14);
 	}
 
 	.card h2 {
@@ -80,6 +103,29 @@ import SiteShell from '../layouts/SiteShell.astro';
 
 	.card p:last-child {
 		margin-bottom: 0;
+	}
+
+	:root[data-theme="dark"] .card {
+		border-color: color-mix(in srgb, var(--line-subtle), #86cada 24%);
+		background: linear-gradient(
+			160deg,
+			color-mix(in srgb, var(--panel-bg), #1a4f5b 58%) 0%,
+			color-mix(in srgb, var(--panel-bg), #153f49 66%) 55%,
+			color-mix(in srgb, var(--panel-bg), #112e37 72%) 100%
+		);
+		box-shadow:
+			0 1px 1px rgba(0, 0, 0, 0.25),
+			0 14px 28px rgba(0, 0, 0, 0.28);
+	}
+
+	:root[data-theme="dark"] .card:hover {
+		border-color: color-mix(in srgb, var(--link), #9fe3f1 32%);
+		background: linear-gradient(
+			160deg,
+			color-mix(in srgb, var(--panel-bg), #226272 58%) 0%,
+			color-mix(in srgb, var(--panel-bg), #1a4e5a 64%) 55%,
+			color-mix(in srgb, var(--panel-bg), #143843 70%) 100%
+		);
 	}
 
 	@media (max-width: 800px) {
