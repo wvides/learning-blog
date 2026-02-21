@@ -17,7 +17,22 @@ const recentPosts = (await getPublishedPosts()).slice(0, 3);
 				This is where I share short notes on systems, delivery workflows, and practical reliability.
 			</p>
 		</div>
-		<div class="hero-art" aria-hidden="true"></div>
+		<div class="hero-art" aria-hidden="true">
+			<img
+				class="hero-image hero-image-back"
+				src={withBase('/images/mountain-hero-a.jpg')}
+				alt=""
+				loading="eager"
+				decoding="async"
+			/>
+			<img
+				class="hero-image hero-image-front"
+				src={withBase('/images/mountain-hero-b.jpg')}
+				alt=""
+				loading="eager"
+				decoding="async"
+			/>
+		</div>
 	</section>
 
 	<section class="recent-posts">
@@ -81,48 +96,34 @@ const recentPosts = (await getPublishedPosts()).slice(0, 3);
 		background: linear-gradient(180deg, rgba(11, 142, 160, 0.88), rgba(8, 106, 121, 0.95));
 	}
 
-	.hero-art::before {
-		content: "";
+	.hero-image {
 		position: absolute;
-		inset: 20% 0 0;
-		background: linear-gradient(180deg, rgba(17, 127, 143, 0.65), rgba(9, 78, 90, 0.9));
-		clip-path: polygon(
-			0% 100%,
-			0% 64%,
-			13% 53%,
-			22% 58%,
-			34% 45%,
-			47% 58%,
-			62% 48%,
-			76% 59%,
-			88% 52%,
-			100% 61%,
-			100% 100%
-		);
+		inset: 0;
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+	}
+
+	.hero-image-back {
+		transform: scale(1.05);
+		filter: saturate(0.9) contrast(1.06);
+		opacity: 0.92;
+	}
+
+	.hero-image-front {
+		transform: scale(1.03);
+		filter: saturate(1.15) contrast(0.92);
+		mix-blend-mode: multiply;
+		opacity: 0.68;
 	}
 
 	.hero-art::after {
 		content: "";
 		position: absolute;
-		inset: 38% 0 0;
+		inset: 0;
 		background:
-			linear-gradient(180deg, rgba(245, 251, 252, 0.9), rgba(225, 246, 248, 0.85)),
-			linear-gradient(180deg, rgba(9, 95, 108, 0.45), rgba(6, 73, 83, 0.75));
-		mix-blend-mode: screen;
-		clip-path: polygon(
-			11% 76%,
-			19% 51%,
-			29% 67%,
-			36% 47%,
-			47% 66%,
-			55% 43%,
-			66% 68%,
-			77% 50%,
-			88% 72%,
-			100% 100%,
-			0% 100%
-		);
-		opacity: 0.72;
+			linear-gradient(180deg, rgba(240, 251, 252, 0.2), rgba(7, 86, 98, 0.25) 45%, rgba(5, 56, 64, 0.65));
+		pointer-events: none;
 	}
 
 	.section-head {
