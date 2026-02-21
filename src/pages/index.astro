@@ -63,29 +63,41 @@ const recentPosts = (await getPublishedPosts()).slice(0, 3);
 	.hero {
 		display: grid;
 		grid-template-columns: minmax(0, 1fr);
-		gap: var(--space-6);
-		padding-bottom: var(--space-8);
+		gap: var(--space-5);
+		padding-bottom: var(--space-7);
 	}
 
 	.hero-copy {
 		max-width: 640px;
+		display: grid;
+		gap: var(--space-4);
 	}
 
 	.eyebrow {
-		margin-bottom: var(--space-3);
+		margin: 0;
+		display: inline-flex;
+		align-items: center;
+		width: fit-content;
+		padding: 0.22rem 0.6rem;
 		font-size: 0.72rem;
 		letter-spacing: 0.08em;
 		text-transform: uppercase;
-		color: var(--text-muted);
+		border-radius: 999px;
+		border: 1px solid color-mix(in srgb, var(--line-subtle), var(--text-strong) 8%);
+		background: color-mix(in srgb, var(--panel-bg), white 36%);
+		color: color-mix(in srgb, var(--text-muted), var(--text-strong) 22%);
 	}
 
 	.hero-copy h1 {
-		max-width: 14ch;
-		margin-bottom: var(--space-4);
+		max-width: 13.5ch;
+		margin: 0;
+		font-size: clamp(2.2rem, 1.86rem + 2.1vw, 3.9rem);
 	}
 
 	.hero-copy p {
+		margin: 0;
 		max-width: 60ch;
+		font-size: 1.02rem;
 	}
 
 	.hero-art {
@@ -136,11 +148,21 @@ const recentPosts = (await getPublishedPosts()).slice(0, 3);
 		align-items: baseline;
 		justify-content: space-between;
 		gap: var(--space-3);
-		margin-bottom: var(--space-4);
+		margin-bottom: var(--space-5);
 	}
 
 	.section-head h2 {
 		margin: 0;
+	}
+
+	.section-head a {
+		display: inline-flex;
+		align-items: center;
+		padding: 0.34rem 0.68rem;
+		border-radius: 999px;
+		border: 1px solid color-mix(in srgb, var(--line-subtle), var(--text-strong) 8%);
+		text-decoration: none;
+		background: color-mix(in srgb, var(--panel-bg), white 30%);
 	}
 
 	.recent-posts ul {

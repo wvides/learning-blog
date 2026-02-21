@@ -19,22 +19,44 @@ const finalHref = href?.startsWith('http') ? href : withBase(href || '/');
 	a {
 		display: inline-flex;
 		align-items: center;
-		padding: 0.35rem 0.45rem;
-		border-radius: 0.35rem;
-		font-size: 0.72rem;
-		font-weight: 500;
-		letter-spacing: 0.02em;
+		position: relative;
+		padding: 0.48rem 0.7rem 0.62rem;
+		border-radius: 0.72rem;
+		font-size: 0.83rem;
+		font-weight: 600;
+		letter-spacing: -0.01em;
 		text-decoration: none;
-		color: var(--text-muted);
+		line-height: 1;
+		color: color-mix(in srgb, var(--text-strong), var(--panel-bg) 34%);
 	}
 
 	a:hover {
 		color: var(--text-strong);
-		background: rgba(25, 32, 33, 0.06);
+		background: color-mix(in srgb, var(--line-subtle), transparent 55%);
 	}
 
 	a.active {
 		color: var(--text-strong);
-		background: rgba(25, 32, 33, 0.1);
+		background: color-mix(in srgb, var(--line-subtle), transparent 45%);
+	}
+
+	a.active::after {
+		content: "";
+		position: absolute;
+		left: 50%;
+		bottom: 0.16rem;
+		width: 1.15rem;
+		height: 0.16rem;
+		transform: translateX(-50%);
+		border-radius: 999px;
+		background: color-mix(in srgb, var(--link), white 10%);
+	}
+
+	:root[data-theme="dark"] a {
+		color: color-mix(in srgb, var(--text-strong), var(--panel-bg) 24%);
+	}
+
+	:root[data-theme="dark"] a.active {
+		background: color-mix(in srgb, var(--line-subtle), transparent 25%);
 	}
 </style>
