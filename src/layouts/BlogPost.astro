@@ -128,6 +128,15 @@ const tocHeadings = headings.filter((heading) => heading.depth >= 2 && heading.d
 		margin: 0;
 	}
 
+	.post-date > span {
+		display: inline-flex;
+		align-items: center;
+		padding: 0.15rem 0.46rem;
+		border-radius: 999px;
+		border: 1px solid color-mix(in srgb, var(--line-subtle), transparent 25%);
+		background: color-mix(in srgb, var(--panel-bg), white 26%);
+	}
+
 	.tags {
 		display: flex;
 		flex-wrap: wrap;
@@ -142,17 +151,23 @@ const tocHeadings = headings.filter((heading) => heading.depth >= 2 && heading.d
 		padding: 0.2rem 0.5rem;
 		border-radius: 999px;
 		font-size: 0.76rem;
-		background: rgba(25, 32, 33, 0.08);
+		border: 1px solid color-mix(in srgb, var(--line-subtle), transparent 28%);
+		background: color-mix(in srgb, var(--panel-bg), white 26%);
 		text-decoration: none;
 		color: var(--text-strong);
 	}
 
 	.tags a:hover {
-		background: rgba(25, 32, 33, 0.15);
+		background: color-mix(in srgb, var(--line-subtle), transparent 34%);
 	}
 
 	.prose :global(p) {
 		margin-bottom: var(--space-5);
+	}
+
+	.prose :global(h2),
+	.prose :global(h3) {
+		scroll-margin-top: 5.5rem;
 	}
 
 	.toc {
@@ -183,6 +198,10 @@ const tocHeadings = headings.filter((heading) => heading.depth >= 2 && heading.d
 	}
 
 	.toc a {
+		display: inline-flex;
+		align-items: center;
+		padding: 0.14rem 0.32rem;
+		border-radius: 0.4rem;
 		text-decoration: none;
 		font-size: 0.9rem;
 		color: var(--text-muted);
@@ -190,6 +209,7 @@ const tocHeadings = headings.filter((heading) => heading.depth >= 2 && heading.d
 
 	.toc a:hover {
 		color: var(--text-strong);
+		background: color-mix(in srgb, var(--line-subtle), transparent 52%);
 	}
 
 	.post-nav {
@@ -209,6 +229,10 @@ const tocHeadings = headings.filter((heading) => heading.depth >= 2 && heading.d
 		display: inline-flex;
 		flex-direction: column;
 		gap: 0.25rem;
+		padding: 0.55rem 0.7rem;
+		border-radius: var(--radius-sm);
+		border: 1px solid color-mix(in srgb, var(--line-subtle), transparent 26%);
+		background: color-mix(in srgb, var(--panel-bg), white 24%);
 		text-decoration: none;
 	}
 
@@ -223,6 +247,18 @@ const tocHeadings = headings.filter((heading) => heading.depth >= 2 && heading.d
 		font-size: 0.96rem;
 		font-weight: 600;
 		color: var(--text-strong);
+	}
+
+	.post-nav a:hover {
+		border-color: color-mix(in srgb, var(--link), white 42%);
+		background: color-mix(in srgb, var(--panel-bg), white 34%);
+	}
+
+	:root[data-theme="dark"] .post-date > span,
+	:root[data-theme="dark"] .tags a,
+	:root[data-theme="dark"] .post-nav a {
+		background: color-mix(in srgb, var(--panel-bg), #1e5b67 36%);
+		border-color: color-mix(in srgb, var(--line-subtle), #89c8d5 14%);
 	}
 
 	@media (max-width: 720px) {
