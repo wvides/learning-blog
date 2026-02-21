@@ -19,4 +19,17 @@ The pattern that worked best for me:
 3. Keep a post-install validation step so stale artifacts fail early.
 4. Measure end-to-end time weekly to catch regressions.
 
+Example cache step:
+
+```yaml
+- uses: actions/cache@v4
+  with:
+    path: |
+      ~/.npm
+      node_modules
+    key: ${{ runner.os }}-npm-${{ hashFiles('**/package-lock.json') }}
+    restore-keys: |
+      ${{ runner.os }}-npm-
+```
+
 After adding this pattern, dependency install time dropped and reruns became more predictable.

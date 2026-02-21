@@ -7,4 +7,10 @@ export default defineConfig({
 	output: 'static',
 	site: 'https://wvides.github.io',
 	base: '/learning-blog',
+	markdown: {
+		syntaxHighlight: 'shiki',
+		shikiConfig: {
+			theme: 'github-dark',
+		},
+	},
 });
