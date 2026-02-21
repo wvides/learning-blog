@@ -32,7 +32,19 @@ npm run preview
 Posts live in:
 - `src/content/blog/`
 
-Each post uses frontmatter like:
+Create a new post scaffold:
+
+```bash
+npm run new-post -- "Your post title"
+```
+
+This command:
+- Generates a slug from the title.
+- Creates `src/content/blog/<slug>.md`.
+- Prefills date/title fields from `templates/blog-post.md`.
+- Starts new posts as drafts (`draft: true`).
+
+Required frontmatter fields:
 
 ```md
 ---
@@ -40,16 +52,18 @@ title: "Post title"
 description: "Longer description used on detail page"
 summary: "Short listing summary"
 pubDate: "2026-02-21"
-updatedDate: "2026-02-21" # optional
+updatedDate: "2026-02-21"
 tags:
   - topic-a
   - topic-b
-draft: false
+draft: true
 ---
 ```
 
-Draft behavior:
-- `draft: true` keeps the post out of listing pages and static routes.
+Publish flow:
+- Keep `draft: true` while writing.
+- Switch to `draft: false` when ready to publish.
+- Run `npm run build` before pushing.
 
 ## Routing
 
