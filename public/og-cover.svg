@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" fill="none">
+  <rect width="1200" height="630" fill="#0E8798"/>
+  <rect x="76" y="76" width="1048" height="478" rx="28" fill="#F4F5F2" stroke="#A6B8B9" stroke-width="4"/>
+  <text x="150" y="246" fill="#192021" font-family="Georgia, serif" font-size="74">
+    Starter
+  </text>
+  <text x="150" y="320" fill="#52666A" font-family="Arial, sans-serif" font-size="40">
+    Minimalist notes on learning software and systems.
+  </text>
+</svg>
