@@ -1,0 +1,125 @@
+---
+import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
+import { changelogEntries } from '../data/changelog';
+import SiteShell from '../layouts/SiteShell.astro';
+---
+
+<SiteShell title={`${SITE_TITLE} | Changelog`} description={SITE_DESCRIPTION} image="/images/og-blog.jpg">
+	<section class="changelog">
+		<h1>Changelog</h1>
+		<p class="intro">A dated history of meaningful updates shipped to this blog.</p>
+
+		<ul class="entries">
+			{
+				changelogEntries.map((entry) => (
+					<li class="entry">
+						<div class="entry-head">
+							<h2>{entry.title}</h2>
+							<time dateTime={entry.date}>
+								{new Date(entry.date).toLocaleDateString('en-US', {
+									year: 'numeric',
+									month: 'short',
+									day: 'numeric',
+								})}
+							</time>
+						</div>
+						<p>{entry.summary}</p>
+						<ul>
+							{entry.highlights.map((item) => <li>{item}</li>)}
+						</ul>
+					</li>
+				))
+			}
+		</ul>
+	</section>
+</SiteShell>
+
+<style>
+	.changelog {
+		max-width: 900px;
+	}
+
+	.changelog h1 {
+		margin-bottom: var(--space-2);
+	}
+
+	.intro {
+		margin-top: 0;
+		margin-bottom: var(--space-5);
+		max-width: 62ch;
+	}
+
+	.entries {
+		list-style: none;
+		margin: 0;
+		padding: 0;
+		display: grid;
+		gap: var(--space-4);
+	}
+
+	.entry {
+		padding: var(--space-5);
+		border-radius: var(--radius-md);
+		border: 1px solid color-mix(in srgb, var(--line-subtle), var(--text-strong) 8%);
+		background: linear-gradient(
+			160deg,
+			color-mix(in srgb, var(--panel-bg), white 56%) 0%,
+			color-mix(in srgb, var(--panel-bg), #d6edf1 38%) 100%
+		);
+	}
+
+	.entry-head {
+		display: flex;
+		align-items: baseline;
+		justify-content: space-between;
+		gap: var(--space-3);
+		margin-bottom: var(--space-2);
+	}
+
+	.entry-head h2 {
+		margin: 0;
+		font-size: 1.07rem;
+	}
+
+	.entry-head time {
+		font-size: 0.82rem;
+		color: var(--text-muted);
+		white-space: nowrap;
+	}
+
+	.entry p {
+		margin-top: 0;
+		margin-bottom: var(--space-3);
+	}
+
+	.entry ul {
+		margin: 0;
+		padding-left: 1.05rem;
+	}
+
+	.entry li + li {
+		margin-top: 0.3rem;
+	}
+
+	:root[data-theme="dark"] .entry {
+		border-color: color-mix(in srgb, var(--line-subtle), #86cada 24%);
+		background: linear-gradient(
+			160deg,
+			color-mix(in srgb, var(--panel-bg), #1a4f5b 58%) 0%,
+			color-mix(in srgb, var(--panel-bg), #153f49 66%) 55%,
+			color-mix(in srgb, var(--panel-bg), #112e37 72%) 100%
+		);
+	}
+
+	@media (max-width: 720px) {
+		.entry {
+			padding: var(--space-4);
+		}
+
+		.entry-head {
+			flex-direction: column;
+			align-items: flex-start;
+			gap: 0.25rem;
+		}
+	}
+</style>

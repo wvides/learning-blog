@@ -1,10 +1,12 @@
 ---
+import { withBase } from '../lib/paths';
 const today = new Date();
 ---
 
 <footer>
 	<p>© {today.getFullYear()} Walter Vides.</p>
 	<p>Notes from experiments, systems, and things learned.</p>
+	<p><a href={withBase('/changelog')}>Changelog</a></p>
 </footer>
 
 <style>
@@ -27,5 +29,14 @@ const today = new Date();
 
 	footer p + p {
 		margin-top: 0.25rem;
+	}
+
+	footer a {
+		color: var(--text-muted);
+		text-underline-offset: 0.18rem;
+	}
+
+	footer a:hover {
+		color: var(--text-strong);
 	}
 </style>
