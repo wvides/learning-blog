@@ -41,8 +41,10 @@ npm run new-post -- "Your post title"
 This command:
 - Generates a slug from the title.
 - Creates `src/content/blog/<slug>.md`.
+- Creates `docs/checklists/<slug>.md` from `templates/post-checklist.md`.
 - Prefills date/title fields from `templates/blog-post.md`.
 - Starts new posts as drafts (`draft: true`).
+- Gives you an authoring QA checklist for SEO/social/content/link quality.
 
 Required frontmatter fields:
 

@@ -3,7 +3,9 @@ import path from 'node:path';
 
 const ROOT = process.cwd();
 const TEMPLATE_PATH = path.join(ROOT, 'templates', 'blog-post.md');
+const CHECKLIST_TEMPLATE_PATH = path.join(ROOT, 'templates', 'post-checklist.md');
 const CONTENT_DIR = path.join(ROOT, 'src', 'content', 'blog');
+const CHECKLIST_DIR = path.join(ROOT, 'docs', 'checklists');
 
 function toSlug(input) {
 	return input
@@ -36,6 +38,7 @@ if (!slug) {
 }
 
 const filePath = path.join(CONTENT_DIR, `${slug}.md`);
+const checklistPath = path.join(CHECKLIST_DIR, `${slug}.md`);
 const date = todayIsoDate();
 
 let template;
@@ -67,4 +70,17 @@ try {
 	await fs.mkdir(CONTENT_DIR, { recursive: true });
 	await fs.writeFile(filePath, output, 'utf8');
 	console.log(`Created: ${path.relative(ROOT, filePath)}`);
+
+	try {
+		const checklistTemplate = await fs.readFile(CHECKLIST_TEMPLATE_PATH, 'utf8');
+		const checklistOutput = checklistTemplate
+			.replace(/__TITLE__/g, rawTitle)
+			.replace(/__SLUG__/g, slug)
+			.replace(/__DATE__/g, date);
+		await fs.mkdir(CHECKLIST_DIR, { recursive: true });
+		await fs.writeFile(checklistPath, checklistOutput, 'utf8');
+		console.log(`Created: ${path.relative(ROOT, checklistPath)}`);
+	} catch {
+		console.log('Checklist template not found, skipping checklist generation.');
+	}
 }
