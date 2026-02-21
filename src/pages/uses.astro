@@ -1,0 +1,79 @@
+---
+import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
+import SiteShell from '../layouts/SiteShell.astro';
+---
+
+<SiteShell title={`${SITE_TITLE} | Uses`} description={SITE_DESCRIPTION}>
+	<section class="page">
+		<h1>Uses</h1>
+		<p class="intro">
+			Tools and setup I currently use for daily engineering work and writing.
+		</p>
+
+		<div class="stack">
+			<section class="card">
+				<h2>Development</h2>
+				<ul>
+					<li>Editor: VS Code</li>
+					<li>Terminal: zsh + tmux</li>
+					<li>Runtime: Node.js</li>
+				</ul>
+			</section>
+
+			<section class="card">
+				<h2>Infrastructure</h2>
+				<ul>
+					<li>Containers: Docker</li>
+					<li>CI/CD: GitHub Actions</li>
+					<li>Hosting: GitHub Pages (static)</li>
+				</ul>
+			</section>
+
+			<section class="card">
+				<h2>Workflow</h2>
+				<ul>
+					<li>Notes: Markdown files in repo</li>
+					<li>Planning: Linear tickets</li>
+					<li>Version control: Git + pull-request based review</li>
+				</ul>
+			</section>
+		</div>
+	</section>
+</SiteShell>
+
+<style>
+	.page {
+		max-width: 880px;
+	}
+
+	.intro {
+		max-width: 62ch;
+		margin-bottom: var(--space-6);
+	}
+
+	.stack {
+		display: grid;
+		gap: var(--space-4);
+	}
+
+	.card {
+		padding: var(--space-5);
+		border: 1px solid var(--line-subtle);
+		border-radius: var(--radius-md);
+		background: color-mix(in srgb, var(--panel-bg), white 12%);
+	}
+
+	.card h2 {
+		font-size: 1.1rem;
+		margin-bottom: var(--space-3);
+	}
+
+	.card ul {
+		margin: 0;
+		padding-left: 1.1rem;
+	}
+
+	.card li {
+		margin-bottom: 0.45rem;
+	}
+</style>

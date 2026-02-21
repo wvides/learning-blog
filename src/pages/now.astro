@@ -1,0 +1,90 @@
+---
+import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
+import SiteShell from '../layouts/SiteShell.astro';
+---
+
+<SiteShell title={`${SITE_TITLE} | Now`} description={SITE_DESCRIPTION}>
+	<section class="page">
+		<h1>Now</h1>
+		<p class="intro">
+			This page captures what I am actively learning and improving right now.
+		</p>
+
+		<div class="grid">
+			<section class="card">
+				<h2>Current Focus</h2>
+				<ul>
+					<li>Stabilizing CI/CD pipelines with better cache and rollback patterns.</li>
+					<li>Improving incident response speed through tighter runbooks.</li>
+					<li>Strengthening baseline security controls in containerized workloads.</li>
+				</ul>
+			</section>
+
+			<section class="card">
+				<h2>In Progress</h2>
+				<ul>
+					<li>Documenting reliable deployment checklists for repeatable releases.</li>
+					<li>Testing observability dashboards that reduce alert fatigue.</li>
+					<li>Writing shorter learning posts from week-to-week experiments.</li>
+				</ul>
+			</section>
+		</div>
+
+		<section class="card">
+			<h2>Recent Changes</h2>
+			<p>
+				I recently launched this blog with static GitHub Pages deployment, tag navigation, and
+				content collections for fast publishing.
+			</p>
+		</section>
+	</section>
+</SiteShell>
+
+<style>
+	.page {
+		max-width: 880px;
+	}
+
+	.intro {
+		max-width: 62ch;
+		margin-bottom: var(--space-6);
+	}
+
+	.grid {
+		display: grid;
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		gap: var(--space-4);
+		margin-bottom: var(--space-4);
+	}
+
+	.card {
+		padding: var(--space-5);
+		border: 1px solid var(--line-subtle);
+		border-radius: var(--radius-md);
+		background: color-mix(in srgb, var(--panel-bg), white 12%);
+	}
+
+	.card h2 {
+		font-size: 1.1rem;
+		margin-bottom: var(--space-3);
+	}
+
+	.card ul {
+		margin: 0;
+		padding-left: 1.1rem;
+	}
+
+	.card li {
+		margin-bottom: 0.45rem;
+	}
+
+	.card p:last-child {
+		margin-bottom: 0;
+	}
+
+	@media (max-width: 800px) {
+		.grid {
+			grid-template-columns: 1fr;
+		}
+	}
+</style>
