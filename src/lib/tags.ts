@@ -8,7 +8,21 @@ type TagSummary = {
 	name: string;
 	slug: string;
 	count: number;
+	description: string;
 };
+
+const TAG_DESCRIPTIONS: Record<string, string> = {
+	ai: 'Practical notes on applying AI in engineering work.',
+	'ai-agents': 'Agent-building patterns, tooling, and lessons from implementation.',
+	'build-log': 'Execution notes and iterative project updates.',
+	'github-pages': 'Static deployment and GitHub Pages operational details.',
+	'platform-engineering': 'Platform reliability, delivery quality, and infrastructure patterns.',
+};
+
+export function getTagDescription(tag: string): string {
+	const slug = tagToSlug(tag);
+	return TAG_DESCRIPTIONS[slug] || `Posts related to ${tag}.`;
+}
 
 export async function getTagSummaries(): Promise<TagSummary[]> {
 	const posts = await getPublishedPosts();
@@ -25,6 +39,7 @@ export async function getTagSummaries(): Promise<TagSummary[]> {
 			name,
 			slug: tagToSlug(name),
 			count,
+			description: getTagDescription(name),
 		}))
 		.sort((a, b) => a.name.localeCompare(b.name));
 }

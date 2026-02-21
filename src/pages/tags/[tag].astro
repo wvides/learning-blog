@@ -15,7 +15,12 @@ export async function getStaticPaths() {
 }
 
 const { tagSlug } = Astro.props;
+const tagSummaries = await getTagSummaries();
 const { tagName, posts } = await getPostsForTagSlug(tagSlug);
+const currentIndex = tagSummaries.findIndex((tag) => tag.slug === tagSlug);
+const currentTag = currentIndex >= 0 ? tagSummaries[currentIndex] : null;
+const previousTag = currentIndex > 0 ? tagSummaries[currentIndex - 1] : null;
+const nextTag = currentIndex >= 0 && currentIndex < tagSummaries.length - 1 ? tagSummaries[currentIndex + 1] : null;
 ---
 
 <SiteShell title={`${SITE_TITLE} | ${tagName}`} description={SITE_DESCRIPTION}>
@@ -24,6 +29,14 @@ const { tagName, posts } = await getPostsForTagSlug(tagSlug);
 			<h1>Tag: {tagName}</h1>
 			<a href={withBase('/tags')}>All tags</a>
 		</div>
+		{
+			currentTag && (
+				<div class="tag-intro">
+					<p>{currentTag.description}</p>
+					<small>{posts.length} post(s) currently in this hub.</small>
+				</div>
+			)
+		}
 		<ul class="post-list">
 			{
 				posts.map((post) => (
@@ -39,6 +52,14 @@ const { tagName, posts } = await getPostsForTagSlug(tagSlug);
 				))
 			}
 		</ul>
+		{
+			(previousTag || nextTag) && (
+				<nav class="tag-nav" aria-label="Related tag hubs">
+					{previousTag ? <a href={withBase(`/tags/${previousTag.slug}/`)}>Previous: {previousTag.name}</a> : <span></span>}
+					{nextTag ? <a href={withBase(`/tags/${nextTag.slug}/`)}>Next: {nextTag.name}</a> : <span></span>}
+				</nav>
+			)
+		}
 	</section>
 </SiteShell>
 
@@ -61,5 +82,52 @@ const { tagName, posts } = await getPostsForTagSlug(tagSlug);
 		margin: 0;
 		display: grid;
 		gap: var(--space-4);
+	}
+
+	.tag-intro {
+		padding: var(--space-4);
+		border: 1px solid var(--line-subtle);
+		border-radius: var(--radius-md);
+		background: color-mix(in srgb, var(--panel-bg), white 20%);
+		margin-bottom: var(--space-5);
+	}
+
+	.tag-intro p {
+		margin-top: 0;
+		margin-bottom: 0.4rem;
+	}
+
+	.tag-intro small {
+		color: var(--text-muted);
+	}
+
+	.tag-nav {
+		margin-top: var(--space-5);
+		padding-top: var(--space-4);
+		border-top: 1px solid var(--line-subtle);
+		display: grid;
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		gap: var(--space-3);
+	}
+
+	.tag-nav a {
+		padding: 0.45rem 0.55rem;
+		border: 1px solid color-mix(in srgb, var(--line-subtle), transparent 20%);
+		border-radius: var(--radius-sm);
+		text-decoration: none;
+	}
+
+	.tag-nav a:last-child {
+		text-align: right;
+	}
+
+	@media (max-width: 720px) {
+		.tag-nav {
+			grid-template-columns: 1fr;
+		}
+
+		.tag-nav a:last-child {
+			text-align: left;
+		}
 	}
 </style>
