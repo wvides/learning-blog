@@ -57,7 +57,7 @@ Draft behavior:
 - Blog index: `/blog`
 - Post detail: `/blog/<slug>/`
 - Tags: `/tags` and `/tags/<tag>/`
-- RSS: `/rss.xml`
+- RSS: `/rss.xml/`
 
 ## Deployment
 
