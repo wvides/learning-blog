@@ -1,0 +1,305 @@
+---
+import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
+import { withBase } from '../lib/paths';
+import { getPublishedPosts, postPathFromId } from '../lib/posts';
+import SiteShell from '../layouts/SiteShell.astro';
+
+const posts = await getPublishedPosts();
+const searchIndex = posts.map((post) => {
+	const postDate = new Date(post.data.pubDate);
+	return {
+		title: post.data.title,
+		excerpt: post.data.summary || post.data.description,
+		tags: post.data.tags || [],
+		url: withBase(postPathFromId(post.id)),
+		dateISO: postDate.toISOString(),
+		dateLabel: postDate.toLocaleDateString('en-US', {
+			year: 'numeric',
+			month: 'short',
+			day: 'numeric',
+		}),
+		searchText: `${post.data.title} ${post.data.summary || post.data.description} ${(post.data.tags || []).join(' ')}`.toLowerCase(),
+	};
+});
+---
+
+<SiteShell title={`${SITE_TITLE} | Search`} description={SITE_DESCRIPTION} image="/images/og-blog.jpg">
+	<section class="search-page">
+		<h1>Search</h1>
+		<p class="intro">Find posts by title, summary, or tags.</p>
+
+		<label class="search-input-wrap" for="search-input">
+			<span>Search query</span>
+			<input
+				id="search-input"
+				name="q"
+				type="search"
+				autocomplete="off"
+				placeholder="Try: platform, github, ai, reliability"
+			/>
+		</label>
+
+		<p id="search-status" class="status">Showing all {searchIndex.length} post(s).</p>
+
+		<ul id="search-results" class="results">
+			{
+				searchIndex.map((item) => (
+					<li class="result-card">
+						<h2>
+							<a href={item.url}>{item.title}</a>
+						</h2>
+						<p>{item.excerpt}</p>
+						<div class="meta">
+							<time dateTime={item.dateISO}>{item.dateLabel}</time>
+							{
+								item.tags.length > 0 && (
+									<ul class="tags">
+										{item.tags.map((tag) => <li>{tag}</li>)}
+									</ul>
+								)
+							}
+						</div>
+					</li>
+				))
+			}
+		</ul>
+	</section>
+
+	<script id="search-index" type="application/json">
+		{JSON.stringify(searchIndex)}
+	</script>
+	<script is:inline>
+		(() => {
+			const input = document.getElementById('search-input');
+			const list = document.getElementById('search-results');
+			const status = document.getElementById('search-status');
+			const payload = document.getElementById('search-index');
+			if (!input || !list || !status || !payload) return;
+
+			let items = [];
+			try {
+				items = JSON.parse(payload.textContent || '[]');
+			} catch (_) {
+				return;
+			}
+
+			const params = new URLSearchParams(window.location.search);
+			input.value = params.get('q') || '';
+
+			const render = (query) => {
+				const terms = query
+					.toLowerCase()
+					.trim()
+					.split(/\s+/)
+					.filter(Boolean);
+				const filtered =
+					terms.length === 0
+						? items
+						: items.filter((item) => terms.every((term) => item.searchText.includes(term)));
+
+				status.textContent =
+					terms.length === 0
+						? `Showing all ${filtered.length} post(s).`
+						: `${filtered.length} result(s) for "${query.trim()}".`;
+
+				list.replaceChildren();
+
+				if (filtered.length === 0) {
+					const empty = document.createElement('li');
+					empty.className = 'result-card empty';
+					empty.textContent = 'No matches yet. Try a broader keyword.';
+					list.appendChild(empty);
+					return;
+				}
+
+				filtered.forEach((item) => {
+					const li = document.createElement('li');
+					li.className = 'result-card';
+
+					const h2 = document.createElement('h2');
+					const link = document.createElement('a');
+					link.href = item.url;
+					link.textContent = item.title;
+					h2.appendChild(link);
+
+					const excerpt = document.createElement('p');
+					excerpt.textContent = item.excerpt;
+
+					const meta = document.createElement('div');
+					meta.className = 'meta';
+
+					const date = document.createElement('time');
+					date.setAttribute('dateTime', item.dateISO);
+					date.textContent = item.dateLabel;
+					meta.appendChild(date);
+
+					if (Array.isArray(item.tags) && item.tags.length > 0) {
+						const tagList = document.createElement('ul');
+						tagList.className = 'tags';
+						item.tags.forEach((tag) => {
+							const tagItem = document.createElement('li');
+							tagItem.textContent = tag;
+							tagList.appendChild(tagItem);
+						});
+						meta.appendChild(tagList);
+					}
+
+					li.appendChild(h2);
+					li.appendChild(excerpt);
+					li.appendChild(meta);
+					list.appendChild(li);
+				});
+			};
+
+			const onInput = () => {
+				const value = input.value;
+				render(value);
+				if (!value.trim()) {
+					window.history.replaceState({}, '', window.location.pathname);
+					return;
+				}
+				const next = new URL(window.location.href);
+				next.searchParams.set('q', value);
+				window.history.replaceState({}, '', `${next.pathname}${next.search}`);
+			};
+
+			input.addEventListener('input', onInput);
+			render(input.value);
+		})();
+	</script>
+</SiteShell>
+
+<style>
+	.search-page {
+		max-width: 880px;
+	}
+
+	.search-page h1 {
+		margin-bottom: var(--space-2);
+	}
+
+	.intro {
+		margin-top: 0;
+		margin-bottom: var(--space-5);
+	}
+
+	.search-input-wrap {
+		display: grid;
+		gap: 0.45rem;
+		margin-bottom: var(--space-3);
+		font-weight: 600;
+	}
+
+	.search-input-wrap span {
+		font-size: 0.86rem;
+	}
+
+	.search-input-wrap input {
+		border: 1px solid color-mix(in srgb, var(--line-subtle), var(--text-strong) 8%);
+		border-radius: var(--radius-md);
+		background: color-mix(in srgb, var(--panel-bg), white 36%);
+		color: var(--text-strong);
+		padding: 0.78rem 0.92rem;
+		font: inherit;
+	}
+
+	.search-input-wrap input:focus {
+		outline: 2px solid color-mix(in srgb, var(--link), white 30%);
+		outline-offset: 2px;
+	}
+
+	.status {
+		margin-top: 0;
+		margin-bottom: var(--space-4);
+		font-size: 0.92rem;
+		color: var(--text-muted);
+	}
+
+	.results {
+		list-style: none;
+		margin: 0;
+		padding: 0;
+		display: grid;
+		gap: var(--space-4);
+	}
+
+	.result-card {
+		padding: var(--space-5);
+		border: 1px solid color-mix(in srgb, var(--line-subtle), var(--text-strong) 8%);
+		border-radius: var(--radius-md);
+		background: linear-gradient(
+			160deg,
+			color-mix(in srgb, var(--panel-bg), white 58%) 0%,
+			color-mix(in srgb, var(--panel-bg), #d6edf1 38%) 100%
+		);
+		box-shadow:
+			0 1px 1px rgba(8, 43, 50, 0.06),
+			0 10px 24px rgba(8, 43, 50, 0.08);
+	}
+
+	.result-card h2 {
+		font-size: 1.06rem;
+		margin-top: 0;
+		margin-bottom: var(--space-2);
+	}
+
+	.result-card h2 a {
+		text-decoration: none;
+	}
+
+	.result-card p {
+		margin-top: 0;
+		margin-bottom: var(--space-3);
+	}
+
+	.meta {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+		gap: 0.45rem;
+		font-size: 0.82rem;
+	}
+
+	.tags {
+		list-style: none;
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.35rem;
+		margin: 0;
+		padding: 0;
+	}
+
+	.tags li {
+		padding: 0.12rem 0.45rem;
+		border-radius: 999px;
+		border: 1px solid color-mix(in srgb, var(--line-subtle), transparent 16%);
+		background: color-mix(in srgb, var(--panel-bg), white 24%);
+	}
+
+	.result-card.empty {
+		font-style: italic;
+	}
+
+	:root[data-theme="dark"] .search-input-wrap input {
+		border-color: color-mix(in srgb, var(--line-subtle), #86cada 24%);
+		background: color-mix(in srgb, var(--panel-bg), #153f49 60%);
+	}
+
+	:root[data-theme="dark"] .result-card {
+		border-color: color-mix(in srgb, var(--line-subtle), #86cada 24%);
+		background: linear-gradient(
+			160deg,
+			color-mix(in srgb, var(--panel-bg), #1a4f5b 58%) 0%,
+			color-mix(in srgb, var(--panel-bg), #153f49 66%) 55%,
+			color-mix(in srgb, var(--panel-bg), #112e37 72%) 100%
+		);
+		box-shadow:
+			0 1px 1px rgba(0, 0, 0, 0.25),
+			0 14px 28px rgba(0, 0, 0, 0.28);
+	}
+	@media (max-width: 720px) {
+		.result-card {
+			padding: var(--space-4);
+		}
+	}
+</style>
