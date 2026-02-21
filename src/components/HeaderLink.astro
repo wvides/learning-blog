@@ -19,21 +19,22 @@ const finalHref = href?.startsWith('http') ? href : withBase(href || '/');
 	a {
 		display: inline-flex;
 		align-items: center;
-		padding: 0.5rem 0.55rem;
-		border-radius: 0.55rem;
-		font-size: 0.85rem;
+		padding: 0.35rem 0.45rem;
+		border-radius: 0.35rem;
+		font-size: 0.72rem;
 		font-weight: 500;
+		letter-spacing: 0.02em;
 		text-decoration: none;
 		color: var(--text-muted);
 	}
 
 	a:hover {
 		color: var(--text-strong);
-		background: rgba(25, 32, 33, 0.05);
+		background: rgba(25, 32, 33, 0.06);
 	}
 
 	a.active {
 		color: var(--text-strong);
-		background: rgba(25, 32, 33, 0.08);
+		background: rgba(25, 32, 33, 0.1);
 	}
 </style>

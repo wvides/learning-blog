@@ -1,17 +1,17 @@
-@import url("https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Newsreader:opsz,wght@6..72,500;6..72,700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=Manrope:wght@500;600;700&display=swap");
 
 :root {
 	/* Color system */
-	--bg-sky-top: #0f99ad;
-	--bg-sky-bottom: #086f80;
-	--bg-mountain: #0a5b67;
-	--panel-bg: #f4f5f2;
-	--panel-border: #a6b8b9;
-	--text-strong: #192021;
-	--text-muted: #52666a;
-	--line-subtle: #d2d8d4;
-	--link: #0d7f90;
-	--link-hover: #085b68;
+	--bg-sky-top: #0f96ab;
+	--bg-sky-mid: #0a8194;
+	--bg-sky-bottom: #086673;
+	--panel-bg: #f0f2ef;
+	--panel-border: #acc0c2;
+	--text-strong: #1a2022;
+	--text-muted: #4f6468;
+	--line-subtle: #cfd7d3;
+	--link: #0c7a8b;
+	--link-hover: #075867;
 
 	/* Spacing scale */
 	--space-1: 0.25rem;
@@ -26,17 +26,17 @@
 	/* Layout tokens */
 	--radius-sm: 0.5rem;
 	--radius-md: 0.9rem;
-	--radius-lg: 1.6rem;
+	--radius-lg: 1.45rem;
 	--shadow-panel:
-		0 1px 2px rgba(7, 38, 44, 0.2),
-		0 12px 40px rgba(7, 38, 44, 0.25);
+		0 1px 1px rgba(6, 39, 45, 0.22),
+		0 18px 48px rgba(6, 39, 45, 0.25);
 
 	/* Typography */
-	--font-body: "DM Sans", "Avenir Next", "Segoe UI", sans-serif;
-	--font-heading: "Newsreader", "Times New Roman", serif;
-	--font-size-body: clamp(1rem, 0.96rem + 0.22vw, 1.1rem);
-	--line-body: 1.65;
-	--line-heading: 1.1;
+	--font-body: "IBM Plex Sans", "Avenir Next", "Segoe UI", sans-serif;
+	--font-heading: "Manrope", "Avenir Next", "Segoe UI", sans-serif;
+	--font-size-body: clamp(0.98rem, 0.94rem + 0.18vw, 1.05rem);
+	--line-body: 1.62;
+	--line-heading: 1.14;
 
 	/* Legacy aliases for existing components */
 	--accent: var(--link);
@@ -67,8 +67,8 @@ body {
 	line-height: var(--line-body);
 	color: var(--text-strong);
 	background:
-		radial-gradient(130rem 80rem at 50% 110%, rgba(8, 91, 104, 0.6), transparent 60%),
-		linear-gradient(180deg, var(--bg-sky-top) 0%, var(--bg-sky-bottom) 55%, var(--bg-mountain) 100%);
+		radial-gradient(100rem 60rem at 65% -10%, rgba(182, 231, 236, 0.15), transparent 55%),
+		linear-gradient(180deg, var(--bg-sky-top) 0%, var(--bg-sky-mid) 55%, var(--bg-sky-bottom) 100%);
 	text-rendering: optimizeLegibility;
 	-webkit-font-smoothing: antialiased;
 }
@@ -102,7 +102,8 @@ h6 {
 }
 
 h1 {
-	font-size: clamp(2rem, 1.7rem + 2vw, 3.3rem);
+	font-size: clamp(2.1rem, 1.82rem + 2vw, 3.6rem);
+	letter-spacing: -0.03em;
 }
 
 h2 {
@@ -117,6 +118,7 @@ p,
 li {
 	margin: 0 0 var(--space-5);
 	color: var(--text-muted);
+	font-size: 0.98em;
 }
 
 a {

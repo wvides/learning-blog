@@ -18,9 +18,9 @@ import HeaderLink from './HeaderLink.astro';
 
 <style>
 	.site-header {
-		padding: 0.9rem 1.1rem;
+		padding: 0.8rem 1.25rem;
 		border-bottom: 1px solid var(--line-subtle);
-		background: color-mix(in srgb, var(--panel-bg), white 30%);
+		background: color-mix(in srgb, var(--panel-bg), white 26%);
 	}
 
 	nav {
@@ -34,9 +34,10 @@ import HeaderLink from './HeaderLink.astro';
 
 	.brand {
 		font-family: var(--font-body);
-		font-weight: 700;
-		font-size: 0.95rem;
-		letter-spacing: 0.02em;
+		font-weight: 600;
+		font-size: 0.8rem;
+		letter-spacing: 0.045em;
+		text-transform: uppercase;
 		text-decoration: none;
 		color: var(--text-strong);
 	}
@@ -52,9 +53,10 @@ import HeaderLink from './HeaderLink.astro';
 		background: transparent;
 		color: var(--text-strong);
 		font: inherit;
-		padding: 0.5rem;
+		padding: 0.35rem 0.45rem;
 		cursor: pointer;
-		opacity: 0.8;
+		opacity: 0.72;
+		font-size: 0.85rem;
 	}
 
 	.theme-toggle:hover {

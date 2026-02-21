@@ -14,8 +14,7 @@ const recentPosts = (await getPublishedPosts()).slice(0, 3);
 			<p class="eyebrow">Starter</p>
 			<h1>Starter - a Minimalist Personal Blog Template.</h1>
 			<p>
-				I use this site to document what I am learning in infrastructure, delivery pipelines, and
-				software reliability.
+				This is where I share short notes on systems, delivery workflows, and practical reliability.
 			</p>
 		</div>
 		<div class="hero-art" aria-hidden="true"></div>
@@ -48,24 +47,24 @@ const recentPosts = (await getPublishedPosts()).slice(0, 3);
 	.hero {
 		display: grid;
 		grid-template-columns: minmax(0, 1fr);
-		gap: var(--space-5);
-		padding-bottom: var(--space-7);
+		gap: var(--space-6);
+		padding-bottom: var(--space-8);
 	}
 
 	.hero-copy {
-		max-width: 680px;
+		max-width: 640px;
 	}
 
 	.eyebrow {
 		margin-bottom: var(--space-3);
-		font-size: 0.78rem;
-		letter-spacing: 0.06em;
+		font-size: 0.72rem;
+		letter-spacing: 0.08em;
 		text-transform: uppercase;
 		color: var(--text-muted);
 	}
 
 	.hero-copy h1 {
-		max-width: 15ch;
+		max-width: 14ch;
 		margin-bottom: var(--space-4);
 	}
 
@@ -74,12 +73,56 @@ const recentPosts = (await getPublishedPosts()).slice(0, 3);
 	}
 
 	.hero-art {
-		height: clamp(10rem, 22vw, 15rem);
+		position: relative;
+		height: clamp(12rem, 26vw, 17.5rem);
 		border-radius: var(--radius-md);
-		border: 1px solid rgba(255, 255, 255, 0.2);
+		border: 1px solid rgba(255, 255, 255, 0.3);
+		overflow: hidden;
+		background: linear-gradient(180deg, rgba(11, 142, 160, 0.88), rgba(8, 106, 121, 0.95));
+	}
+
+	.hero-art::before {
+		content: "";
+		position: absolute;
+		inset: 20% 0 0;
+		background: linear-gradient(180deg, rgba(17, 127, 143, 0.65), rgba(9, 78, 90, 0.9));
+		clip-path: polygon(
+			0% 100%,
+			0% 64%,
+			13% 53%,
+			22% 58%,
+			34% 45%,
+			47% 58%,
+			62% 48%,
+			76% 59%,
+			88% 52%,
+			100% 61%,
+			100% 100%
+		);
+	}
+
+	.hero-art::after {
+		content: "";
+		position: absolute;
+		inset: 38% 0 0;
 		background:
-			linear-gradient(180deg, rgba(10, 130, 148, 0.86), rgba(7, 96, 109, 0.92)),
-			radial-gradient(circle at 20% 30%, rgba(255, 255, 255, 0.14), transparent 30%);
+			linear-gradient(180deg, rgba(245, 251, 252, 0.9), rgba(225, 246, 248, 0.85)),
+			linear-gradient(180deg, rgba(9, 95, 108, 0.45), rgba(6, 73, 83, 0.75));
+		mix-blend-mode: screen;
+		clip-path: polygon(
+			11% 76%,
+			19% 51%,
+			29% 67%,
+			36% 47%,
+			47% 66%,
+			55% 43%,
+			66% 68%,
+			77% 50%,
+			88% 72%,
+			100% 100%,
+			0% 100%
+		);
+		opacity: 0.72;
 	}
 
 	.section-head {
@@ -104,7 +147,7 @@ const recentPosts = (await getPublishedPosts()).slice(0, 3);
 
 	@media (max-width: 720px) {
 		.hero {
-			padding-bottom: var(--space-6);
+			padding-bottom: var(--space-7);
 		}
 	}
 </style>
