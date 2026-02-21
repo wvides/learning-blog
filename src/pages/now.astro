@@ -13,29 +13,15 @@ import SiteShell from '../layouts/SiteShell.astro';
 		<div class="grid">
 			<section class="card">
 				<h2>Current Focus</h2>
-				<ul>
-					<li>Platform reliability through simpler deployment and rollback paths.</li>
-					<li>AI and agent-building skills applied to practical engineering workflows.</li>
-					<li>Reducing operational noise with cleaner alerts, runbooks, and ownership.</li>
-				</ul>
 			</section>
 
 			<section class="card">
 				<h2>In Progress</h2>
-				<ul>
-					<li>Tightening GitHub Actions workflows for faster, safer releases.</li>
-					<li>Turning repeated tasks into reusable checklists and templates.</li>
-					<li>Publishing shorter notes from real experiments each week.</li>
-				</ul>
 			</section>
 		</div>
 
 		<section class="card">
 			<h2>Recent Changes</h2>
-			<p>
-				I launched this blog as a static site on GitHub Pages with ticket-based planning in Linear,
-				and I am iterating content and design in small, reviewable passes.
-			</p>
 		</section>
 	</section>
 </SiteShell>
@@ -89,20 +75,7 @@ import SiteShell from '../layouts/SiteShell.astro';
 
 	.card h2 {
 		font-size: 1.1rem;
-		margin-bottom: var(--space-3);
-	}
-
-	.card ul {
 		margin: 0;
-		padding-left: 1.1rem;
-	}
-
-	.card li {
-		margin-bottom: 0.45rem;
-	}
-
-	.card p:last-child {
-		margin-bottom: 0;
 	}
 
 	:root[data-theme="dark"] .card {
