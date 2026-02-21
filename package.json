@@ -7,11 +7,16 @@
     "build": "astro build",
     "preview": "astro preview",
     "astro": "astro",
-    "new-post": "node scripts/new-post.mjs"
+    "new-post": "node scripts/new-post.mjs",
+    "test:visual": "npm run build && PLAYWRIGHT_BROWSERS_PATH=0 playwright test -c playwright.visual.config.ts",
+    "test:visual:update": "npm run build && PLAYWRIGHT_BROWSERS_PATH=0 playwright test -c playwright.visual.config.ts --update-snapshots"
   },
   "dependencies": {
     "@astrojs/rss": "^2.4.4",
     "@astrojs/sitemap": "^2.0.2",
     "astro": "^2.10.15"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.42.1"
   }
 }
