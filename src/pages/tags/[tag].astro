@@ -1,0 +1,64 @@
+---
+import PostCard from '../../components/PostCard.astro';
+import { SITE_DESCRIPTION, SITE_TITLE } from '../../consts';
+import { getPostsForTagSlug, getTagSummaries } from '../../lib/tags';
+import { postPathFromId } from '../../lib/posts';
+import SiteShell from '../../layouts/SiteShell.astro';
+
+export async function getStaticPaths() {
+	const tags = await getTagSummaries();
+	return tags.map((tag) => ({
+		params: { tag: tag.slug },
+		props: { tagSlug: tag.slug },
+	}));
+}
+
+const { tagSlug } = Astro.props;
+const { tagName, posts } = await getPostsForTagSlug(tagSlug);
+---
+
+<SiteShell title={`${SITE_TITLE} | ${tagName}`} description={SITE_DESCRIPTION}>
+	<section>
+		<div class="head">
+			<h1>Tag: {tagName}</h1>
+			<a href="/tags">All tags</a>
+		</div>
+		<ul class="post-list">
+			{
+				posts.map((post) => (
+					<li>
+						<PostCard
+							href={postPathFromId(post.id)}
+							title={post.data.title}
+							description={post.data.summary || post.data.description}
+							pubDate={post.data.pubDate}
+							tags={post.data.tags}
+						/>
+					</li>
+				))
+			}
+		</ul>
+	</section>
+</SiteShell>
+
+<style>
+	.head {
+		display: flex;
+		align-items: baseline;
+		justify-content: space-between;
+		gap: var(--space-3);
+		margin-bottom: var(--space-5);
+	}
+
+	.head h1 {
+		margin: 0;
+	}
+
+	.post-list {
+		list-style: none;
+		padding: 0;
+		margin: 0;
+		display: grid;
+		gap: var(--space-4);
+	}
+</style>

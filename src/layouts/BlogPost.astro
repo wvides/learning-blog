@@ -1,11 +1,12 @@
 ---
 import type { CollectionEntry } from 'astro:content';
 import FormattedDate from '../components/FormattedDate.astro';
+import { tagToSlug } from '../lib/tags';
 import SiteShell from './SiteShell.astro';
 
 type Props = CollectionEntry<'blog'>['data'];
 
-const { title, description, pubDate, updatedDate } = Astro.props;
+const { title, description, pubDate, updatedDate, tags = [] } = Astro.props;
 ---
 
 <SiteShell title={title} description={description}>
@@ -23,6 +24,13 @@ const { title, description, pubDate, updatedDate } = Astro.props;
 			</div>
 			<h1>{title}</h1>
 			<p>{description}</p>
+			{
+				tags.length > 0 && (
+					<ul class="tags">
+						{tags.map((tag) => <li><a href={`/tags/${tagToSlug(tag)}/`}>{tag}</a></li>)}
+					</ul>
+				)
+			}
 		</header>
 		<div class="prose">
 			<slot />
@@ -61,6 +69,29 @@ const { title, description, pubDate, updatedDate } = Astro.props;
 
 	.post-header p {
 		margin: 0;
+	}
+
+	.tags {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.35rem;
+		list-style: none;
+		margin: var(--space-4) 0 0;
+		padding: 0;
+	}
+
+	.tags a {
+		display: inline-flex;
+		padding: 0.2rem 0.5rem;
+		border-radius: 999px;
+		font-size: 0.76rem;
+		background: rgba(25, 32, 33, 0.08);
+		text-decoration: none;
+		color: var(--text-strong);
+	}
+
+	.tags a:hover {
+		background: rgba(25, 32, 33, 0.15);
 	}
 
 	.prose :global(p) {

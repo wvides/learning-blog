@@ -1,0 +1,55 @@
+---
+import { SITE_DESCRIPTION, SITE_TITLE } from '../../consts';
+import { getTagSummaries } from '../../lib/tags';
+import SiteShell from '../../layouts/SiteShell.astro';
+
+const tags = await getTagSummaries();
+---
+
+<SiteShell title={`${SITE_TITLE} | Tags`} description={SITE_DESCRIPTION}>
+	<section class="tags">
+		<h1>Tags</h1>
+		<ul>
+			{
+				tags.map((tag) => (
+					<li>
+						<a href={`/tags/${tag.slug}/`}>
+							<span>{tag.name}</span>
+							<small>{tag.count}</small>
+						</a>
+					</li>
+				))
+			}
+		</ul>
+	</section>
+</SiteShell>
+
+<style>
+	.tags h1 {
+		margin-bottom: var(--space-5);
+	}
+
+	.tags ul {
+		list-style: none;
+		padding: 0;
+		margin: 0;
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+		gap: var(--space-3);
+	}
+
+	.tags a {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		padding: 0.9rem 1rem;
+		border-radius: var(--radius-md);
+		border: 1px solid var(--line-subtle);
+		background: color-mix(in srgb, var(--panel-bg), white 24%);
+		text-decoration: none;
+	}
+
+	.tags small {
+		color: var(--text-muted);
+	}
+</style>
