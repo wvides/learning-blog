@@ -18,6 +18,18 @@ const ogImageURL = new URL(`${basePath}og-cover.svg`, Astro.site);
 const { title, description } = Astro.props;
 ---
 
+<script is:inline>
+	(() => {
+		const key = 'learning-blog-theme';
+		try {
+			const stored = localStorage.getItem(key);
+			const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+			const theme = stored === 'light' || stored === 'dark' ? stored : systemPrefersDark ? 'dark' : 'light';
+			document.documentElement.dataset.theme = theme;
+		} catch (_) {}
+	})();
+</script>
+
 <!-- Global Metadata -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
@@ -25,6 +37,7 @@ const { title, description } = Astro.props;
 <link rel="sitemap" href={sitemapURL} />
 <link rel="alternate" type="application/rss+xml" title={SITE_TITLE} href={rssURL} />
 <meta name="generator" content={Astro.generator} />
+<meta name="color-scheme" content="light dark" />
 
 <!-- Canonical URL -->
 <link rel="canonical" href={canonicalURL} />

@@ -11,10 +11,47 @@ import HeaderLink from './HeaderLink.astro';
 			<HeaderLink href="/about">About</HeaderLink>
 			<HeaderLink href="/blog">Blog</HeaderLink>
 			<HeaderLink href="/tags">Tags</HeaderLink>
-			<button type="button" class="theme-toggle" aria-label="Theme toggle placeholder">◐</button>
+			<button
+				type="button"
+				class="theme-toggle"
+				aria-label="Switch to dark theme"
+				aria-pressed="false"
+				data-theme-toggle
+			>
+				<span aria-hidden="true" data-theme-icon>◑</span>
+			</button>
 		</div>
 	</nav>
 </header>
+
+<script is:inline>
+	(() => {
+		const key = 'learning-blog-theme';
+		const root = document.documentElement;
+		const button = document.querySelector('[data-theme-toggle]');
+		const icon = document.querySelector('[data-theme-icon]');
+		if (!button || !icon) return;
+
+		const sync = (theme) => {
+			root.dataset.theme = theme;
+			const darkMode = theme === 'dark';
+			button.setAttribute('aria-pressed', String(darkMode));
+			button.setAttribute('aria-label', darkMode ? 'Switch to light theme' : 'Switch to dark theme');
+			icon.textContent = darkMode ? '☀' : '◑';
+		};
+
+		const current = root.dataset.theme === 'dark' ? 'dark' : 'light';
+		sync(current);
+
+		button.addEventListener('click', () => {
+			const next = root.dataset.theme === 'dark' ? 'light' : 'dark';
+			sync(next);
+			try {
+				localStorage.setItem(key, next);
+			} catch (_) {}
+		});
+	})();
+</script>
 
 <style>
 	.site-header {
@@ -49,18 +86,21 @@ import HeaderLink from './HeaderLink.astro';
 	}
 
 	.theme-toggle {
-		border: 0;
-		background: transparent;
+		border: 1px solid color-mix(in srgb, var(--line-subtle), var(--text-strong) 16%);
+		background: color-mix(in srgb, var(--panel-bg), white 20%);
 		color: var(--text-strong);
 		font: inherit;
-		padding: 0.35rem 0.45rem;
+		padding: 0.3rem 0.48rem;
+		border-radius: 999px;
 		cursor: pointer;
-		opacity: 0.72;
-		font-size: 0.85rem;
+		opacity: 0.84;
+		font-size: 0.8rem;
+		line-height: 1;
 	}
 
 	.theme-toggle:hover {
 		opacity: 1;
+		border-color: color-mix(in srgb, var(--text-strong), white 60%);
 	}
 
 	@media (max-width: 720px) {
