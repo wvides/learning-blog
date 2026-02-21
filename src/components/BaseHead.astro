@@ -41,6 +41,14 @@ const publishedISO = publishedTime ? new Date(publishedTime).toISOString() : nul
 const modifiedISO = modifiedTime ? new Date(modifiedTime).toISOString() : null;
 const baseURL = new URL(basePath, Astro.site).toString();
 const searchURLTemplate = new URL(`${basePath}search/?q={search_term_string}`, Astro.site).toString();
+const analyticsProvider = (import.meta.env.PUBLIC_ANALYTICS_PROVIDER || '').toLowerCase();
+const plausibleDomain = import.meta.env.PUBLIC_PLAUSIBLE_DOMAIN;
+const plausibleScriptURL =
+	import.meta.env.PUBLIC_PLAUSIBLE_SCRIPT_URL || 'https://plausible.io/js/script.outbound-links.js';
+const umamiWebsiteId = import.meta.env.PUBLIC_UMAMI_WEBSITE_ID;
+const umamiScriptURL = import.meta.env.PUBLIC_UMAMI_SCRIPT_URL;
+const usePlausible = analyticsProvider === 'plausible' && Boolean(plausibleDomain);
+const useUmami = analyticsProvider === 'umami' && Boolean(umamiWebsiteId && umamiScriptURL);
 const webSiteStructuredData = {
 	'@context': 'https://schema.org',
 	'@type': 'WebSite',
@@ -110,5 +118,35 @@ const structuredDataItems = [webSiteStructuredData, ...additionalStructuredData]
 <meta property="twitter:title" content={title} />
 <meta property="twitter:description" content={description} />
 <meta property="twitter:image" content={ogImageURL} />
+
+{
+	usePlausible && <script defer data-domain={plausibleDomain} src={plausibleScriptURL}></script>
+}
+{useUmami && <script defer src={umamiScriptURL} data-website-id={umamiWebsiteId}></script>}
+{
+	useUmami && (
+		<script is:inline>
+			{`(() => {
+				document.addEventListener(
+					'click',
+					(event) => {
+						const target = event.target instanceof Element ? event.target.closest('a[href]') : null;
+						if (!target) return;
+						const href = target.getAttribute('href');
+						if (!href) return;
+						try {
+							const destination = new URL(href, window.location.href);
+							if (destination.origin === window.location.origin) return;
+							if (window.umami && typeof window.umami.track === 'function') {
+								window.umami.track('outbound_click', { href: destination.toString() });
+							}
+						} catch (_) {}
+					},
+					{ capture: true }
+				);
+			})();`}
+		</script>
+	)
+}
 
 {structuredDataItems.map((item) => <script type="application/ld+json" set:html={JSON.stringify(item)} />)}

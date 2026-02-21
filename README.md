@@ -86,6 +86,22 @@ Trigger:
 Deploy target:
 - GitHub Pages (Actions build type)
 
+## Analytics (Optional)
+
+Analytics is disabled by default. Enable it with environment variables:
+
+- `PUBLIC_ANALYTICS_PROVIDER`: `plausible` or `umami`
+- Plausible:
+  - `PUBLIC_PLAUSIBLE_DOMAIN` (example: `wvides.github.io`)
+  - Optional override: `PUBLIC_PLAUSIBLE_SCRIPT_URL`
+- Umami:
+  - `PUBLIC_UMAMI_SCRIPT_URL`
+  - `PUBLIC_UMAMI_WEBSITE_ID`
+
+Outbound click tracking:
+- Plausible: use `script.outbound-links.js` (default in this repo config).
+- Umami: outbound clicks are tracked via a small inline click listener.
+
 ## Notes
 
 - Internal links are base-path aware for project pages deployment (`/learning-blog`).
