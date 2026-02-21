@@ -1,0 +1,21 @@
+{
+  "ci": {
+    "collect": {
+      "staticDistDir": "./dist",
+      "numberOfRuns": 1,
+      "url": [
+        "http://localhost:4173/learning-blog/",
+        "http://localhost:4173/learning-blog/blog/",
+        "http://localhost:4173/learning-blog/blog/first-post-synthetic-how-i-an-ai-built-this-blog/"
+      ]
+    },
+    "assert": {
+      "assertions": {
+        "categories:performance": ["error", { "minScore": 0.8 }],
+        "categories:accessibility": ["error", { "minScore": 0.9 }],
+        "categories:best-practices": ["error", { "minScore": 0.85 }],
+        "categories:seo": ["error", { "minScore": 0.9 }]
+      }
+    }
+  }
+}
