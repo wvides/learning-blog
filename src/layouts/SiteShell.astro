@@ -13,9 +13,11 @@ interface Props {
 	publishedTime?: Date | string;
 	modifiedTime?: Date | string;
 	tags?: string[];
+	structuredData?: Record<string, unknown> | Record<string, unknown>[];
 }
 
-const { title, description, image, ogType, noindex, publishedTime, modifiedTime, tags = [] } = Astro.props;
+const { title, description, image, ogType, noindex, publishedTime, modifiedTime, tags = [], structuredData } =
+	Astro.props;
 ---
 
 <!doctype html>
@@ -30,6 +32,7 @@ const { title, description, image, ogType, noindex, publishedTime, modifiedTime,
 			publishedTime={publishedTime}
 			modifiedTime={modifiedTime}
 			tags={tags}
+			structuredData={structuredData}
 		/>
 	</head>
 	<body>

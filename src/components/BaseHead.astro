@@ -2,7 +2,7 @@
 // Import the global.css file here so that it is included on
 // all pages through the use of the <BaseHead /> component.
 import '../styles/global.css';
-import { SITE_TITLE } from '../consts';
+import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
 
 interface Props {
 	title: string;
@@ -13,6 +13,7 @@ interface Props {
 	publishedTime?: Date | string;
 	modifiedTime?: Date | string;
 	tags?: string[];
+	structuredData?: Record<string, unknown> | Record<string, unknown>[];
 }
 
 const basePath = import.meta.env.BASE_URL;
@@ -30,6 +31,7 @@ const {
 	publishedTime,
 	modifiedTime,
 	tags = [],
+	structuredData,
 } = Astro.props;
 
 const ogImageURL = image
@@ -37,6 +39,27 @@ const ogImageURL = image
 	: defaultOgImageURL;
 const publishedISO = publishedTime ? new Date(publishedTime).toISOString() : null;
 const modifiedISO = modifiedTime ? new Date(modifiedTime).toISOString() : null;
+const baseURL = new URL(basePath, Astro.site).toString();
+const searchURLTemplate = new URL(`${basePath}search/?q={search_term_string}`, Astro.site).toString();
+const webSiteStructuredData = {
+	'@context': 'https://schema.org',
+	'@type': 'WebSite',
+	name: SITE_TITLE,
+	url: baseURL,
+	description: SITE_DESCRIPTION,
+	inLanguage: 'en-US',
+	potentialAction: {
+		'@type': 'SearchAction',
+		target: searchURLTemplate,
+		'query-input': 'required name=search_term_string',
+	},
+};
+const additionalStructuredData = Array.isArray(structuredData)
+	? structuredData
+	: structuredData
+		? [structuredData]
+		: [];
+const structuredDataItems = [webSiteStructuredData, ...additionalStructuredData];
 ---
 
 <script is:inline>
@@ -87,3 +110,5 @@ const modifiedISO = modifiedTime ? new Date(modifiedTime).toISOString() : null;
 <meta property="twitter:title" content={title} />
 <meta property="twitter:description" content={description} />
 <meta property="twitter:image" content={ogImageURL} />
+
+{structuredDataItems.map((item) => <script type="application/ld+json" set:html={JSON.stringify(item)} />)}

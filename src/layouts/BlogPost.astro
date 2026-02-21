@@ -1,5 +1,6 @@
 ---
 import type { CollectionEntry } from 'astro:content';
+import { SITE_TITLE } from '../consts';
 import FormattedDate from '../components/FormattedDate.astro';
 import { withBase } from '../lib/paths';
 import { tagToSlug } from '../lib/tags';
@@ -31,6 +32,33 @@ const {
 };
 
 const tocHeadings = headings.filter((heading) => heading.depth >= 2 && heading.depth <= 3);
+const canonicalURL = new URL(Astro.url.pathname, Astro.site).toString();
+const normalizedImage = heroImage || '/images/og-post.jpg';
+const imageURL = normalizedImage.startsWith('http')
+	? normalizedImage
+	: new URL(`${import.meta.env.BASE_URL}${normalizedImage.replace(/^\/+/, '')}`, Astro.site).toString();
+const publishedISO = new Date(pubDate).toISOString();
+const modifiedISO = updatedDate ? new Date(updatedDate).toISOString() : publishedISO;
+const articleStructuredData = {
+	'@context': 'https://schema.org',
+	'@type': 'BlogPosting',
+	headline: title,
+	description,
+	mainEntityOfPage: canonicalURL,
+	url: canonicalURL,
+	image: [imageURL],
+	datePublished: publishedISO,
+	dateModified: modifiedISO,
+	author: {
+		'@type': 'Person',
+		name: SITE_TITLE,
+	},
+	publisher: {
+		'@type': 'Person',
+		name: SITE_TITLE,
+	},
+	keywords: tags.join(', '),
+};
 ---
 
 <SiteShell
@@ -41,6 +69,7 @@ const tocHeadings = headings.filter((heading) => heading.depth >= 2 && heading.d
 	publishedTime={pubDate}
 	modifiedTime={updatedDate}
 	tags={tags}
+	structuredData={articleStructuredData}
 >
 	<article class="post">
 		<header class="post-header">
