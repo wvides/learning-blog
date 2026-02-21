@@ -3,4 +3,4 @@
 
 export const SITE_TITLE = 'Walter Vides';
 export const SITE_DESCRIPTION =
-	'Staff Infrastructure Engineer sharing practical notes on platform engineering and AI agent-building skills.';
+	'Practical notes on platform engineering and AI agent-building skills.';

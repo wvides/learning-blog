@@ -11,14 +11,10 @@ const recentPosts = (await getPublishedPosts()).slice(0, 3);
 <SiteShell title={SITE_TITLE} description={SITE_DESCRIPTION}>
 	<section class="hero">
 		<div class="hero-copy">
-			<p class="eyebrow">Staff Infrastructure Engineer</p>
-			<h1>
+			<h1>{SITE_TITLE}</h1>
+			<p class="mission">
 				I build <span class="accent">infrastructure and platform systems</span> and help teams ship
 				<span class="accent">reliable products at scale</span>.
-			</h1>
-			<p class="lead">
-				I’m a Staff Infrastructure Engineer focused on cloud platforms, backend reliability, and
-				developer productivity.
 			</p>
 			<p class="sublead">
 				Here I share practical notes on platform architecture and how I’m upleveling my AI and
@@ -76,31 +72,16 @@ const recentPosts = (await getPublishedPosts()).slice(0, 3);
 	}
 
 	.hero-copy {
-		max-width: 640px;
+		max-width: 760px;
 		display: grid;
-		gap: var(--space-4);
-	}
-
-	.eyebrow {
-		margin: 0;
-		display: inline-flex;
-		align-items: center;
-		width: fit-content;
-		padding: 0.22rem 0.6rem;
-		font-size: 0.72rem;
-		letter-spacing: 0.08em;
-		text-transform: uppercase;
-		border-radius: 999px;
-		border: 1px solid color-mix(in srgb, var(--line-subtle), var(--text-strong) 8%);
-		background: color-mix(in srgb, var(--panel-bg), white 36%);
-		color: color-mix(in srgb, var(--text-muted), var(--text-strong) 22%);
+		gap: var(--space-3);
 	}
 
 	.hero-copy h1 {
-		max-width: 13.5ch;
 		margin: 0;
-		font-size: clamp(1.86rem, 1.5rem + 1.6vw, 3.05rem);
-		line-height: 1.08;
+		font-size: clamp(1.65rem, 1.42rem + 0.9vw, 2.35rem);
+		line-height: 1.05;
+		letter-spacing: 0.01em;
 	}
 
 	.hero-copy .accent {
@@ -109,16 +90,19 @@ const recentPosts = (await getPublishedPosts()).slice(0, 3);
 
 	.hero-copy p {
 		margin: 0;
-		max-width: 60ch;
+		max-width: 42ch;
 	}
 
-	.hero-copy .lead {
-		font-size: 1rem;
-		color: color-mix(in srgb, var(--text-muted), var(--text-strong) 18%);
+	.hero-copy .mission {
+		font-size: clamp(1.16rem, 1rem + 0.85vw, 1.9rem);
+		line-height: 1.18;
+		font-weight: 500;
+		color: var(--text-strong);
 	}
 
 	.hero-copy .sublead {
 		font-size: 0.98rem;
+		color: color-mix(in srgb, var(--text-muted), var(--text-strong) 10%);
 	}
 
 	.hero-art {
