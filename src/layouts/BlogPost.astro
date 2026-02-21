@@ -15,6 +15,7 @@ const {
 	pubDate,
 	updatedDate,
 	tags = [],
+	heroImage,
 	headings = [],
 	readingTimeMinutes = 1,
 	previous = null,
@@ -29,7 +30,15 @@ const {
 const tocHeadings = headings.filter((heading) => heading.depth >= 2 && heading.depth <= 3);
 ---
 
-<SiteShell title={title} description={description}>
+<SiteShell
+	title={title}
+	description={description}
+	ogType="article"
+	image={heroImage}
+	publishedTime={pubDate}
+	modifiedTime={updatedDate}
+	tags={tags}
+>
 	<article class="post">
 		<header class="post-header">
 			<div class="post-date">

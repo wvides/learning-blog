@@ -87,4 +87,4 @@ Deploy target:
 ## Notes
 
 - Internal links are base-path aware for project pages deployment (`/learning-blog`).
-- SEO metadata, Open Graph, Twitter cards, RSS feed, and sitemap are included.
+- SEO metadata, Open Graph, Twitter cards, RSS feed, sitemap, and robots.txt are included.
