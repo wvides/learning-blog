@@ -1,5 +1,5 @@
 ---
-title: "Small steps into deep AI knowledge: Tokens"
+title: "AI Foundations, Part 1: Tokens"
 description: "Sharing a little on my journey to learn more about how modern AI systems and agents are built and how they work"
 summary: "Sharing a little on my journey to learn more about how modern AI systems and agents are built and how they work"
 pubDate: "2026-02-22"
