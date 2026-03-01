@@ -2,10 +2,11 @@
 import PostCard from '../components/PostCard.astro';
 import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
 import { withBase } from '../lib/paths';
-import { getPublishedPosts, postPathFromId } from '../lib/posts';
+import { postPathFromId } from '../lib/posts';
+import { getPostsByTopic } from '../lib/tags';
 import SiteShell from '../layouts/SiteShell.astro';
 
-const recentPosts = (await getPublishedPosts()).slice(0, 3);
+const topics = await getPostsByTopic(3);
 ---
 
 <SiteShell title={SITE_TITLE} description={SITE_DESCRIPTION} image="/images/og-home.jpg">
@@ -17,57 +18,45 @@ const recentPosts = (await getPublishedPosts()).slice(0, 3);
 				<span class="accent">reliable products at scale</span>.
 			</p>
 			<p class="sublead">
-				Here I share practical notes on platform architecture and how I’m upleveling my AI and
+				Here I share practical notes on platform architecture and how I'm upleveling my AI and
 				agent-building skills.
 			</p>
 		</div>
-		<div class="hero-art" aria-hidden="true">
-			<picture>
-				<source
-					srcset={`${withBase('/images/mountain-hero-800.jpg')} 800w, ${withBase('/images/mountain-hero-1400.jpg')} 1400w, ${withBase('/images/mountain-hero-2000.jpg')} 2000w`}
-					sizes="(max-width: 720px) calc(100vw - 1rem), (max-width: 1120px) calc(100vw - 4.5rem), 960px"
-				/>
-				<img
-					class="hero-image"
-					src={withBase('/images/mountain-hero-1400.jpg')}
-					alt=""
-					width="2000"
-					height="750"
-					loading="eager"
-					decoding="async"
-				/>
-			</picture>
-		</div>
 	</section>
 
-	<section class="recent-posts">
-		<div class="section-head">
-			<h2>Recent posts</h2>
-			<a href={withBase('/blog')}>View all</a>
-		</div>
-		<ul>
-			{
-				recentPosts.map((post) => (
-					<li>
-						<PostCard
-							href={postPathFromId(post.id)}
-							title={post.data.title}
-							description={post.data.summary || post.data.description}
-							pubDate={post.data.pubDate}
-							tags={post.data.tags}
-						/>
-					</li>
-				))
-			}
-		</ul>
-	</section>
+	{
+		topics.map((topic) => (
+			<section class="topic-group">
+				<div class="section-head">
+					<div>
+						<h2>{topic.name}</h2>
+						<p class="topic-desc">{topic.description}</p>
+					</div>
+					<a href={withBase(`/tags/${topic.slug}/`)}>See all</a>
+				</div>
+				<ul>
+					{topic.posts.map((post) => (
+						<li>
+							<PostCard
+								href={postPathFromId(post.id)}
+								title={post.data.title}
+								description={post.data.summary || post.data.description}
+								pubDate={post.data.pubDate}
+								tags={post.data.tags}
+							/>
+						</li>
+					))}
+				</ul>
+			</section>
+		))
+	}
 </SiteShell>
 
 <style>
 	.hero {
 		display: grid;
 		grid-template-columns: minmax(0, 1fr);
-		gap: var(--space-5);
+		gap: var(--space-3);
 		padding-bottom: var(--space-7);
 	}
 
@@ -105,47 +94,8 @@ const recentPosts = (await getPublishedPosts()).slice(0, 3);
 		color: color-mix(in srgb, var(--text-muted), var(--text-strong) 10%);
 	}
 
-	.hero-art {
-		position: relative;
-		width: 100%;
-		aspect-ratio: 8 / 3;
-		border-radius: var(--radius-md);
-		border: 1px solid rgba(255, 255, 255, 0.3);
-		overflow: hidden;
-		background: linear-gradient(180deg, rgba(15, 122, 140, 0.96), rgba(10, 93, 108, 0.98));
-	}
-
-	.hero-art picture,
-	.hero-image {
-		position: absolute;
-		inset: 0;
-		width: 100%;
-		height: 100%;
-	}
-
-	.hero-image {
-		object-fit: cover;
-		object-position: center 38%;
-		filter: saturate(0.95) contrast(1.02);
-		opacity: 0.98;
-	}
-
-	.hero-art::before {
-		content: "";
-		position: absolute;
-		inset: 0;
-		background: linear-gradient(180deg, rgba(169, 228, 236, 0.08), rgba(169, 228, 236, 0) 28%);
-		pointer-events: none;
-		z-index: 1;
-	}
-
-	.hero-art::after {
-		content: "";
-		position: absolute;
-		inset: 0;
-		background: linear-gradient(180deg, rgba(240, 251, 252, 0), rgba(6, 70, 81, 0.18) 58%, rgba(4, 48, 56, 0.48));
-		pointer-events: none;
-		z-index: 1;
+	.topic-group {
+		margin-bottom: var(--space-7);
 	}
 
 	.section-head {
@@ -160,9 +110,17 @@ const recentPosts = (await getPublishedPosts()).slice(0, 3);
 		margin: 0;
 	}
 
+	.topic-desc {
+		margin: var(--space-1) 0 0;
+		font-size: 0.92rem;
+		color: var(--text-muted);
+		max-width: 48ch;
+	}
+
 	.section-head a {
 		display: inline-flex;
 		align-items: center;
+		flex-shrink: 0;
 		padding: 0.34rem 0.68rem;
 		border-radius: 999px;
 		border: 1px solid color-mix(in srgb, var(--line-subtle), var(--text-strong) 8%);
@@ -170,17 +128,11 @@ const recentPosts = (await getPublishedPosts()).slice(0, 3);
 		background: color-mix(in srgb, var(--panel-bg), white 30%);
 	}
 
-	.recent-posts ul {
+	.topic-group ul {
 		list-style: none;
 		padding: 0;
 		margin: 0;
 		display: grid;
 		gap: var(--space-4);
-	}
-
-	@media (max-width: 720px) {
-		.hero {
-			padding-bottom: var(--space-7);
-		}
 	}
 </style>

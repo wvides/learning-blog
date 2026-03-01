@@ -17,6 +17,9 @@ pnpm-debug.log*
 .env
 .env.production
 
+# claude code local config
+.claude/
+
 # macOS-specific files
 .DS_Store
 

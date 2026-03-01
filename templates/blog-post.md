@@ -6,6 +6,8 @@ pubDate: "__DATE__"
 updatedDate: "__DATE__"
 tags:
   - learning
+heroImage: ""
+heroLayout: "wide"
 draft: true
 ---
 

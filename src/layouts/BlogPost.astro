@@ -18,6 +18,7 @@ const {
 	updatedDate,
 	tags = [],
 	heroImage,
+	heroLayout = 'wide',
 	headings = [],
 	readingTimeMinutes = 1,
 	previous = null,
@@ -30,6 +31,9 @@ const {
 	next?: PostLink;
 	related?: RelatedPostLink[];
 };
+
+const heroSrc = heroImage || '/images/mountain-hero-1400.jpg';
+const hasHero = true;
 
 const tocHeadings = headings.filter((heading) => heading.depth >= 2 && heading.depth <= 3);
 const canonicalURL = new URL(Astro.url.pathname, Astro.site).toString();
@@ -75,6 +79,27 @@ const articleStructuredData = {
 		<div class="reading-progress" aria-hidden="true">
 			<span data-reading-progress></span>
 		</div>
+		{
+			hasHero && (
+				<div class={`post-hero post-hero--${heroLayout}`}>
+					<picture>
+						<source
+							srcset={`${withBase('/images/mountain-hero-800.jpg')} 800w, ${withBase('/images/mountain-hero-1400.jpg')} 1400w, ${withBase('/images/mountain-hero-2000.jpg')} 2000w`}
+							sizes="(max-width: 720px) calc(100vw - 2rem), 720px"
+						/>
+						<img
+							class="post-hero__img"
+							src={withBase(heroSrc)}
+							alt=""
+							width="2000"
+							height="750"
+							loading="eager"
+							decoding="async"
+						/>
+					</picture>
+				</div>
+			)
+		}
 		<header class="post-header">
 			<div class="post-date">
 				<FormattedDate date={pubDate} />
@@ -267,6 +292,59 @@ const articleStructuredData = {
 		transform-origin: left center;
 		transform: scaleX(0);
 		background: linear-gradient(90deg, color-mix(in srgb, var(--link), white 18%), var(--link));
+	}
+
+	/* Post hero — shared */
+	.post-hero {
+		margin-bottom: var(--space-5);
+		overflow: hidden;
+	}
+
+	.post-hero picture {
+		display: block;
+	}
+
+	.post-hero__img {
+		display: block;
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+		object-position: center 38%;
+	}
+
+	/* Wide — full-width banner */
+	.post-hero--wide {
+		aspect-ratio: 3 / 1;
+		border-radius: var(--radius-md);
+	}
+
+	/* Offset — shifted right with rotation */
+	.post-hero--offset {
+		width: 75%;
+		margin-left: auto;
+		aspect-ratio: 4 / 3;
+		border-radius: var(--radius-md);
+		transform: rotate(1.2deg);
+	}
+
+	/* Rounded — centered pill shape */
+	.post-hero--rounded {
+		width: 60%;
+		margin-inline: auto;
+		aspect-ratio: 4 / 3;
+		border-radius: 2rem;
+	}
+
+	/* Diagonal — full-width with clipped bottom */
+	.post-hero--diagonal {
+		aspect-ratio: 3 / 1;
+		border-radius: var(--radius-md) var(--radius-md) 0 0;
+		clip-path: polygon(0 0, 100% 0, 100% 82%, 0 100%);
+	}
+
+	/* Dark mode hero adjustments */
+	:root[data-theme="dark"] .post-hero__img {
+		opacity: 0.88;
 	}
 
 	.post-header {
@@ -576,6 +654,15 @@ const articleStructuredData = {
 	}
 
 	@media (max-width: 720px) {
+		.post-hero--offset {
+			width: 100%;
+			transform: none;
+		}
+
+		.post-hero--rounded {
+			width: 85%;
+		}
+
 		.post-nav {
 			grid-template-columns: 1fr;
 		}
