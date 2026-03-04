@@ -1,12 +1,23 @@
 ---
 import PostCard from '../components/PostCard.astro';
+import FormattedDate from '../components/FormattedDate.astro';
 import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
 import { withBase } from '../lib/paths';
-import { postPathFromId } from '../lib/posts';
+import { getPublishedPosts, postPathFromId } from '../lib/posts';
 import { getPostsByTopic } from '../lib/tags';
 import SiteShell from '../layouts/SiteShell.astro';
 
 const topics = await getPostsByTopic(3);
+const allPosts = await getPublishedPosts();
+const now = new Date();
+const SEVEN_DAYS_MS = 7 * 24 * 60 * 60 * 1000;
+
+function isNew(pubDate: Date | string): boolean {
+	const pub = pubDate instanceof Date ? pubDate : new Date(pubDate);
+	return now.getTime() - pub.getTime() < SEVEN_DAYS_MS;
+}
+
+const recentPosts = allPosts.filter((post) => isNew(post.data.pubDate));
 ---
 
 <SiteShell title={SITE_TITLE} description={SITE_DESCRIPTION} image="/images/og-home.jpg">
@@ -23,6 +34,22 @@ const topics = await getPostsByTopic(3);
 			</p>
 		</div>
 	</section>
+
+	{recentPosts.length > 0 && (
+		<section class="recent-strip">
+			<h2>Recently published</h2>
+			<ul>
+				{recentPosts.map((post) => (
+					<li>
+						<a href={withBase(postPathFromId(post.id))} class="recent-pill">
+							<span class="recent-pill-title">{post.data.title}</span>
+							<span class="recent-pill-date"><FormattedDate date={post.data.pubDate} /></span>
+						</a>
+					</li>
+				))}
+			</ul>
+		</section>
+	)}
 
 	{
 		topics.map((topic) => (
@@ -43,6 +70,7 @@ const topics = await getPostsByTopic(3);
 								description={post.data.summary || post.data.description}
 								pubDate={post.data.pubDate}
 								tags={post.data.tags}
+								isNew={isNew(post.data.pubDate)}
 							/>
 						</li>
 					))}
@@ -94,6 +122,70 @@ const topics = await getPostsByTopic(3);
 		color: color-mix(in srgb, var(--text-muted), var(--text-strong) 10%);
 	}
 
+	.recent-strip {
+		margin-bottom: var(--space-7);
+	}
+
+	.recent-strip h2 {
+		margin: 0 0 var(--space-4);
+		font-size: 1rem;
+		font-weight: 600;
+		text-transform: uppercase;
+		letter-spacing: 0.06em;
+		color: var(--text-muted);
+	}
+
+	.recent-strip ul {
+		list-style: none;
+		padding: 0;
+		margin: 0;
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.5rem;
+	}
+
+	.recent-pill {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.5rem;
+		padding: 0.4rem 0.85rem;
+		border-radius: 999px;
+		border: 1px solid color-mix(in srgb, var(--link), transparent 58%);
+		background: color-mix(in srgb, var(--link), transparent 90%);
+		text-decoration: none;
+		color: var(--text-strong);
+		transition:
+			background 160ms ease,
+			border-color 160ms ease,
+			transform 160ms ease;
+	}
+
+	.recent-pill:hover {
+		background: color-mix(in srgb, var(--link), transparent 80%);
+		border-color: color-mix(in srgb, var(--link), transparent 30%);
+		transform: translateY(-1px);
+	}
+
+	.recent-pill-title {
+		font-size: 0.88rem;
+		font-weight: 600;
+	}
+
+	.recent-pill-date {
+		font-size: 0.74rem;
+		color: var(--text-muted);
+	}
+
+	:root[data-theme="dark"] .recent-pill {
+		border-color: color-mix(in srgb, var(--link), transparent 52%);
+		background: color-mix(in srgb, var(--link), transparent 86%);
+	}
+
+	:root[data-theme="dark"] .recent-pill:hover {
+		background: color-mix(in srgb, var(--link), transparent 76%);
+		border-color: color-mix(in srgb, var(--link), transparent 28%);
+	}
+
 	.topic-group {
 		margin-bottom: var(--space-7);
 	}
@@ -134,5 +226,6 @@ const topics = await getPostsByTopic(3);
 		margin: 0;
 		display: grid;
 		gap: var(--space-4);
+		grid-template-columns: repeat(auto-fill, minmax(min(100%, 320px), 1fr));
 	}
 </style>

@@ -5,6 +5,13 @@ import { getPublishedPosts, postPathFromId } from '../../lib/posts';
 import SiteShell from '../../layouts/SiteShell.astro';
 
 const posts = await getPublishedPosts();
+const now = new Date();
+const SEVEN_DAYS_MS = 7 * 24 * 60 * 60 * 1000;
+
+function isNew(pubDate: Date | string): boolean {
+	const pub = pubDate instanceof Date ? pubDate : new Date(pubDate);
+	return now.getTime() - pub.getTime() < SEVEN_DAYS_MS;
+}
 ---
 
 <SiteShell title={SITE_TITLE} description={SITE_DESCRIPTION} image="/images/og-blog.jpg">
@@ -20,6 +27,7 @@ const posts = await getPublishedPosts();
 							description={post.data.summary || post.data.description}
 							pubDate={post.data.pubDate}
 							tags={post.data.tags}
+							isNew={isNew(post.data.pubDate)}
 						/>
 					</li>
 				))
@@ -44,5 +52,10 @@ const posts = await getPublishedPosts();
 		margin: 0;
 		display: grid;
 		gap: var(--space-4);
+		grid-template-columns: repeat(auto-fill, minmax(min(100%, 320px), 1fr));
+	}
+
+	.blog-list li:first-child {
+		grid-column: 1 / -1;
 	}
 </style>
